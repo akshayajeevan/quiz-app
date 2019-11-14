@@ -1,0 +1,43 @@
+<mat-card class="login-card">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="login-form">
+      <table class="login-tbl">
+        <tr>
+          <td>
+            <mat-form-field>
+              <input matInput placeholder="Username" [(ngModel)] = "username" name="username" required>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr>
+        <td>
+          <mat-form-field>
+            <input matInput placeholder="Password" [(ngModel)]="password"type="password" name="password" required>
+          </mat-form-field>
+        </td>
+      </tr>
+    </table>
+    </form>
+    <mat-spinner [style.display]="showSpinner ? 'block' : 'none'"></mat-spinner>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button class="login-btn" (click)="login()" color="primary">Login</button>
+    <br>
+    <br>
+    <mat-divider></mat-divider>
+    <div class='g-sign-in-button' (click)="googleLogin()">
+      <div class=content-wrapper>
+      <div class='logo-wrapper'>
+        <img src='https://developers.google.com/identity/images/g-logo.png'>
+        </div>
+        <span class='text-container'>
+          <span>Sign in with Google</span>
+        </span>
+      </div>
+    </div>
+  </mat-card-actions>
+
+</mat-card>

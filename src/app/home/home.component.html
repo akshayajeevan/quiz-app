@@ -1,0 +1,52 @@
+<mat-toolbar>
+  <span>Home</span>
+  <span class="cust-toolbr"></span>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-menu #menu="matMenu">
+  <button mat-menu-item disabled>
+    <span>Hello {{loggedInUser.fullName}}!</span>
+  </button>
+  <button mat-menu-item disabled>
+    <mat-icon>person</mat-icon>
+    <span>My Account</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>power_off</mat-icon>
+    <span>Log Out</span>
+  </button>
+</mat-menu>
+<div class="container">
+  <p>home works!</p>
+  <p>home works!</p>
+  <p>home works!</p>
+  <div>
+    <span>Category</span>
+
+  </div>
+  <br>
+
+  <!-- <mat-card style="max-width: 300px;margin: 10px" *ngFor="let category of catergoryList">
+    <mat-card-header>
+      <mat-card-title>{{category.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      {{category.description}}
+    </mat-card-content>
+  </mat-card> -->
+
+  <div class="row">
+    <div class="col-sm-4" *ngFor="let category of catergoryList">
+      <div class="card" style="background: #424242; color: #fff;">
+        <div class="card-body">
+          <h5 class="card-title">{{category.name}}</h5>
+          <p class="card-text">{{category.description}}</p>
+          <a (click)="openCategory(category.name)" class="btn btn-primary">Try now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
