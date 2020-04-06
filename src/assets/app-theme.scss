@@ -1,0 +1,76 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+$my-blue: (
+  50: #E2EDF3,
+  100: #B6D1E2,
+  200: #86B2CE,
+  300: #5693BA,
+  400: #317CAC,
+  500: #0D659D,
+  600: #0B5D95,
+  700: #09538B,
+  800: #074981,
+  900: #03376F,
+  A100: #9EC6FF,
+  A200: #6BA9FF,
+  A400: #388BFF,
+  A700: #1F7CFF,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: black,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$my-darak-blue: (
+  50: #E1E5E7,
+  100: #B4BEC4,
+  200: #82939D,
+  300: #506776,
+  400: #2B4758,
+  500: #05263B,
+  600: #042235,
+  700: #041C2D,
+  800: #031726,
+  900: #010D19,
+  A100: #5898FF,
+  A200: #2579FF,
+  A400: #005DF1,
+  A700: #0053D7,
+  contrast: (
+    50: black,
+    100: black,
+    200: black,
+    300: black,
+    400: black,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: black,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$my-app-primary: mat-palette($my-blue);
+$my-app-accent:  mat-palette($my-darak-blue, 500, 900, A100);
+$my-app-warn:    mat-palette($mat-red);
+
+$my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
+
+@include angular-material-theme($my-app-theme);

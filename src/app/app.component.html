@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<app-header [inputSideNav]="snav"></app-header>
+<mat-sidenav-container class="custom-sidenav-container">
+  <mat-sidenav #snav mode="side" fixedInViewport="true" fixedTopGap="60">
+    <mat-nav-list (click)="snav.toggle()">
+      <a mat-list-item routerLink="/home">Home</a>
+      <a mat-list-item routerLink="/sources">Details</a>
+      <!-- <a mat-list-item routerLink="/quiz">Quiz to Try!</a> -->
+      <!-- <a mat-list-item routerLink="/about-me">About Me</a> -->
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<app-footer></app-footer>
+

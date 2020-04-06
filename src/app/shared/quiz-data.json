@@ -1,0 +1,61 @@
+[
+  {
+    "name": "General Knowledge",
+    "description": "Some Quiz about General Knowledge",
+    "type": "General",
+    "quizList": [
+      {
+        "quizname": "All About Countries",
+        "description": "Check if you know about these?"
+      },
+      {
+        "quizname": "Famous Personalities",
+        "description": "Do you know people?"
+      },
+      {
+        "quizname": "Memorable Incidents",
+        "description": "Remember these?"
+      },
+      {
+        "quizname": "Our History",
+        "description": "Old is Gold"
+      },
+      {
+        "quizname": "Beatiful Nature",
+        "description": "Take care ot it"
+      }
+    ]
+  },
+  {
+    "name": "Angular",
+    "description": "Quiz about Angular Framework",
+    "type": "Technical",
+    "quizList": [
+      {
+        "quizname": "AngularJS Basics",
+        "description": "Superheroic Javascript Framework"
+      },
+      {
+        "quizname": "AngularJS Intermediate",
+        "description": "We should know these"
+      },
+      {
+        "quizname": "AngularJS Advanced",
+        "description": "Are you a superhero?"
+      },
+      {
+        "quizname": "Angular 8 Basics",
+        "description": "Better than AngularJS"
+      },
+      {
+        "quizname": "Angular 8",
+        "description": "Modern Angular Framework"
+      }
+    ]
+  },
+  {
+    "name": "CSS",
+    "description": "Quiz about CSS",
+    "type": "Technical"
+  }
+]

@@ -1,0 +1,9 @@
+h1.toolbar-app-name {
+  margin-left: 8px;
+}
+
+.cust-toolbar {
+  position: fixed;
+  /* Make sure the toolbar will stay on top of the content as it scrolls past. */
+  z-index: 2;
+}

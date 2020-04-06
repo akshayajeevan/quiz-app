@@ -1,0 +1,98 @@
+<div class="container">
+  
+  <h1>Categories</h1>
+
+  <br>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let category of catergoryList">
+      <mat-expansion-panel-header>
+        {{category.name}}
+      </mat-expansion-panel-header>
+      <div class="row mb-2" style="margin-top: 10px;">
+        <div class="col-6 col-sm-4 mt-3" *ngFor="let quiz of category.quizList">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar></div>
+              <mat-card-title>{{quiz.quizname}}</mat-card-title>
+              <mat-card-subtitle>{{quiz.description}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions>
+              <button mat-button>LIKE</button>
+              <button mat-button (click)="openQuiz(quiz.quizname)">TRY</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let category of catergoryList">
+      <mat-expansion-panel-header>
+        {{category.name}}
+      </mat-expansion-panel-header>
+      <div class="row mb-2" style="margin-top: 10px;">
+        <div class="col-6 col-sm-4 mt-3" *ngFor="let quiz of category.quizList">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar></div>
+              <mat-card-title>{{quiz.quizname}}</mat-card-title>
+              <mat-card-subtitle>{{quiz.description}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions>
+              <button mat-button>LIKE</button>
+              <button mat-button (click)="openQuiz(quiz.quizname)">TRY</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let category of catergoryList">
+      <mat-expansion-panel-header>
+        {{category.name}}
+      </mat-expansion-panel-header>
+      <div class="row mb-2" style="margin-top: 10px;">
+        <div class="col-6 col-sm-4 mt-3" *ngFor="let quiz of category.quizList">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar></div>
+              <mat-card-title>{{quiz.quizname}}</mat-card-title>
+              <mat-card-subtitle>{{quiz.description}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions>
+              <button mat-button>LIKE</button>
+              <button mat-button (click)="openQuiz(quiz.quizname)">TRY</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let category of catergoryList">
+      <mat-expansion-panel-header>
+        {{category.name}}
+      </mat-expansion-panel-header>
+      <div class="row mb-2" style="margin-top: 10px;">
+        <div class="col-6 col-sm-4 mt-3" *ngFor="let quiz of category.quizList">
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar></div>
+              <mat-card-title>{{quiz.quizname}}</mat-card-title>
+              <mat-card-subtitle>{{quiz.description}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions>
+              <button mat-button>LIKE</button>
+              <button mat-button (click)="openQuiz(quiz.quizname)">TRY</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+//@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .container {
-  background-color: #f3f4f5;
+  // background-color: #f3f4f5;
+  margin-top: 65px;
 }
 
 @media (min-width: 1200px) {
@@ -18,4 +19,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .cust-toolbr {
   flex: 1 1 auto
 }
+
+.mat-accordion > .mat-expansion-panel {
+  margin-bottom: 10px;
+}
+
+// .mat-expansion-panel-content > .mat-expansion-panel-body {
+//   background: #f3f4f5;
+// }
 
