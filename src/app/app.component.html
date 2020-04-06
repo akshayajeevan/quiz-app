@@ -8,7 +8,7 @@
       <!-- <a mat-list-item routerLink="/about-me">About Me</a> -->
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
+  <mat-sidenav-content (click)="snav.close()">
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

@@ -15,7 +15,11 @@ export class HomeComponent implements OnInit {
   catergoryList: any;
 
   myCountry = 'India';
-  myCountryLatestData: any;
+  myCountryLatestData = {
+    confirmed: '',
+    deaths: '',
+    recovered: ''
+  };
   indiaSummary: any;
   indiaRegLastRefreshed: [];
 
@@ -40,7 +44,7 @@ export class HomeComponent implements OnInit {
     //     ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
     //   }
     // });
-    //this.showDailyChart();
+    // this.showDailyChart();
     this.showDailyChartArea();
     this.showIndiaRegionalChart();
   }
@@ -126,9 +130,9 @@ export class HomeComponent implements OnInit {
 
   showDailyChartArea() {
     this.homeService.getDailyData().subscribe(response => {
-      response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
-        console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
-      );
+      // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
+      //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
+      // );
       const myCountryData = response[this.myCountry];
       const confirmedData = [];
       const deathData = [];
@@ -207,7 +211,7 @@ export class HomeComponent implements OnInit {
 
   showIndiaRegionalChart() {
     this.homeService.getIndiaRegionalData().subscribe(response => {
-      console.log(response);
+      // console.log(response);
       const ylabelsForChart = [];
       this.indiaRegLastRefreshed = response['lastRefreshed'];
       if (response['success']) {
