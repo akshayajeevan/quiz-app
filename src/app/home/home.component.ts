@@ -16,9 +16,9 @@ export class HomeComponent implements OnInit {
 
   myCountry = 'India';
   myCountryLatestData = {
-    confirmed: '',
-    deaths: '',
-    recovered: ''
+    confirmed: 0,
+    deaths: 0,
+    recovered: 0
   };
   indiaSummary: any;
   indiaRegLastRefreshed: [];
