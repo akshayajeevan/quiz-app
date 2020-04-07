@@ -34,7 +34,7 @@ $my-blue: (
   )
 );
 
-$my-darak-blue: (
+$my-dark-blue: (
   50: #E1E5E7,
   100: #B4BEC4,
   200: #82939D,
@@ -68,7 +68,7 @@ $my-darak-blue: (
 );
 
 $my-app-primary: mat-palette($my-blue);
-$my-app-accent:  mat-palette($my-darak-blue, 500, 900, A100);
+$my-app-accent:  mat-palette($my-dark-blue, 500, 900, A100);
 $my-app-warn:    mat-palette($mat-red);
 
 $my-app-theme: mat-light-theme($my-app-primary, $my-app-accent, $my-app-warn);
