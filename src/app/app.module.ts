@@ -7,7 +7,7 @@ import { CustomMaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -17,6 +17,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { SourcesComponent } from './sources/sources.component';
+import { AnimateNumerComponent } from './animate-number/animate-number.component';
 // Services
 import { DataService } from './shared/data.service';
 import { HomeService } from './home/home.service';
@@ -30,7 +31,8 @@ import { HomeService } from './home/home.service';
     FooterComponent,
     AboutMeComponent,
     QuizComponent,
-    SourcesComponent
+    SourcesComponent,
+    AnimateNumerComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,8 @@ import { HomeService } from './home/home.service';
   providers: [
     DataService,
     HomeService,
-    DatePipe
+    DatePipe,
+    DecimalPipe
   ],
   bootstrap: [AppComponent]
 })

@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HomeService } from './home.service';
-import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import Chart from 'chart.js';
 
 @Component({
@@ -18,7 +17,9 @@ export class HomeComponent implements OnInit {
   myCountryLatestData = {
     confirmed: 0,
     deaths: 0,
-    recovered: 0
+    recovered: 0,
+    deathRate: 0,
+    recoveryRate: 0
   };
   indiaSummary: any;
   indiaRegLastRefreshed: [];
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
   @ViewChild('myCanvas', { static: true }) myCanvas: ElementRef;
   @ViewChild('indiaregional', { static: true }) indiaRegional: ElementRef;
 
-  constructor(private homeService: HomeService, private datePipe: DatePipe) {
+  constructor(private homeService: HomeService, private decimalPipe: DecimalPipe) {
 
   }
 
@@ -70,7 +71,9 @@ export class HomeComponent implements OnInit {
       this.myCountryLatestData = {
         confirmed: myCountryData[myCountryData.length - 1].confirmed,
         deaths: myCountryData[myCountryData.length - 1].deaths,
-        recovered: myCountryData[myCountryData.length - 1].recovered
+        recovered: myCountryData[myCountryData.length - 1].recovered,
+        deathRate: 0,
+        recoveryRate: 0
       };
       const chart = new Chart(this.myCanvas.nativeElement.getContext('2d'), {
         type: 'bar',
@@ -138,11 +141,11 @@ export class HomeComponent implements OnInit {
           Chart.controllers.line.prototype.draw.call(this, ease);
 
           if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
-            var activePoint = this.chart.tooltip._active[0],
-                ctx = this.chart.ctx,
-                x = activePoint.tooltipPosition().x,
-                topY = this.chart.scales['y-axis-0'].top,
-                bottomY = this.chart.scales['y-axis-0'].bottom;
+            const activePoint = this.chart.tooltip._active[0];
+            const ctx = this.chart.ctx;
+            const x = activePoint.tooltipPosition().x;
+            const topY = this.chart.scales['y-axis-0'].top;
+            const bottomY = this.chart.scales['y-axis-0'].bottom;
 
             // draw line
             ctx.save();
@@ -174,8 +177,14 @@ export class HomeComponent implements OnInit {
       this.myCountryLatestData = {
         confirmed: myCountryData[myCountryData.length - 1].confirmed,
         deaths: myCountryData[myCountryData.length - 1].deaths,
-        recovered: myCountryData[myCountryData.length - 1].recovered
+        recovered: myCountryData[myCountryData.length - 1].recovered,
+        deathRate: 0,
+        recoveryRate: 0
       };
+      const deathRate = (this.myCountryLatestData.deaths / this.myCountryLatestData.confirmed) * 100;
+      this.myCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
+      const recoveryRate = (this.myCountryLatestData.recovered / this.myCountryLatestData.confirmed) * 100;
+      this.myCountryLatestData.recoveryRate = Number(this.decimalPipe.transform(recoveryRate, '1.2-2'));
       const chart = new Chart(this.myCanvas.nativeElement.getContext('2d'), {
         type: 'LineWithLine',
         data: {
@@ -264,9 +273,13 @@ export class HomeComponent implements OnInit {
     this.homeService.getIndiaRegionalData().subscribe(response => {
       // console.log(response);
       const ylabelsForChart = [];
+      // tslint:disable-next-line: no-string-literal
       this.indiaRegLastRefreshed = response['lastRefreshed'];
+      // tslint:disable-next-line: no-string-literal
       if (response['success']) {
+        // tslint:disable-next-line: no-string-literal
         const indiaRegData: any = response['data'];
+        // tslint:disable-next-line: no-string-literal
         this.indiaSummary = indiaRegData.summary;
         const sortedRegionalData = indiaRegData.regional.sort((a, b) => {
           const aTotal = a.confirmedCasesIndian + a.discharged + a.deaths + a.confirmedCasesForeign;

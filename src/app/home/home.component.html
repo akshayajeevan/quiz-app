@@ -1,14 +1,15 @@
 <div class="container">
   <div class="text-center pt-1">
     <h3 class="display-4">COVID-19 data for {{myCountry}}</h3>
-    <p><em>live data for India: related to COVID 19 diagnosis, recovery and deaths</em></p>
+    <p><em>real data for India: related to COVID 19 diagnosis, recovery and deaths</em></p>
   </div>
   <div class="row mb-2">
     <div class="col-12 col-sm-4 col-md-4">
       <mat-card class="data-card">
         <mat-card-content>
           <p>as of today, total confirmed cases</p>
-          <h2>{{myCountryLatestData.confirmed}}</h2>
+          <h2 class="display-4">
+          <app-animate-number [digit]="myCountryLatestData.confirmed" [duration]="1000" [steps]="0"></app-animate-number></h2>
         </mat-card-content>
       </mat-card>
     </div>
@@ -16,8 +17,10 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>total deaths</p>
-          <h2 style="color: darkred;">{{myCountryLatestData.deaths}}</h2> with
-          {{(myCountryLatestData.deaths/myCountryLatestData.confirmed)*100 | number: '1.2-2'}}% death rate
+          <!-- <h2 class="display-4" style="color: darkred;">{{myCountryLatestData.deaths}}</h2> with
+          {{(myCountryLatestData.deaths/myCountryLatestData.confirmed)*100 | number: '1.2-2'}}% death rate -->
+          <h2 class="display-4" style="color: darkred;">
+          <app-animate-number [digit]="myCountryLatestData.deaths" [duration]="1000" [steps]="0"></app-animate-number></h2>with {{myCountryLatestData.deathRate}}% death rate
         </mat-card-content>
       </mat-card>
     </div>
@@ -25,8 +28,8 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>total recovered</p>
-          <h2 style="color: darkgreen;">{{myCountryLatestData.recovered}}</h2> with
-          {{(myCountryLatestData.recovered/myCountryLatestData.confirmed)*100 | number: '1.2-2'}}% recovery rate
+          <h2 class="display-4" style="color: darkgreen;"><app-animate-number [digit]="myCountryLatestData.recovered" [duration]="1000" [steps]="0"></app-animate-number></h2> with
+          {{myCountryLatestData.recoveryRate}}% recovery rate
         </mat-card-content>
       </mat-card>
     </div>
@@ -55,8 +58,40 @@
       </mat-card>
     </div>
   </div>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      Useful Informations
+    </mat-expansion-panel-header>
+    <div class="row mb-2">
+      <div class="col-12 col-sm-4 col-md-4">
+        <mat-card class="data-card">
+          <mat-card-content>
+            <p>Indian Govt Helpline No</p>
+            <p style="color: darkred;"><strong>+91-11-23978046 </strong> (Toll Free : 1075)</p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-12 col-sm-4 col-md-4">
+        <mat-card class="data-card">
+          <mat-card-content>
+            <p>Indian Govt Helpline Email</p>
+            <p style="color: darkred;"><a style="color: darkred;" href="mailto:ncov2019@gov.in">ncov2019@gov.in</a></p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col-12 col-sm-4 col-md-4">
+        <mat-card class="data-card">
+          <mat-card-content>
+            <p>For more details</p>
+            <p style="color: darkgreen;"><a style="color: darkgreen;" target="_blank" href="https://www.mohfw.gov.in/">Ministry of Health and Family Welfare</a></p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-expansion-panel>
   <div class="text-center pt-3">
     <p class="mb-0"><small>Daily Data retrieved from <a target="_blank" href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins</a> via <a target="_blank" href="https://github.com/pomber/covid19">@pomber</a></small></p>
-    <p><small>more details <a routerLink="/sources">here</a></small></p>
+    <p class="mb-0"><small>developer details <a routerLink="/sources">here</a></small></p>
+    <p class="mb-0"><small>Stay Home Stay Safe</small></p>
   </div>
 </div>
