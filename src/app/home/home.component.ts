@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
     //   }
     // });
     // this.showDailyChart();
-    this.showDailyChartArea();
+    this.showDailyChartLine();
     this.showIndiaRegionalChart();
   }
 
@@ -128,18 +128,47 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  showDailyChartArea() {
+  /**
+   * Show Daily cases in line chart
+   */
+  showDailyChartLine() {
+    Chart.defaults.LineWithLine = Chart.defaults.line;
+    Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+      draw: function(ease) {
+          Chart.controllers.line.prototype.draw.call(this, ease);
+
+          if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+            var activePoint = this.chart.tooltip._active[0],
+                ctx = this.chart.ctx,
+                x = activePoint.tooltipPosition().x,
+                topY = this.chart.scales['y-axis-0'].top,
+                bottomY = this.chart.scales['y-axis-0'].bottom;
+
+            // draw line
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(x, topY);
+            ctx.lineTo(x, bottomY);
+            ctx.lineWidth = 1;
+            ctx.strokeStyle = '#0D659D';
+            ctx.stroke();
+            ctx.restore();
+          }
+      }
+    });
     this.homeService.getDailyData().subscribe(response => {
-      // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
-      //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
-      // );
+      response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
+        console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
+      );
       const myCountryData = response[this.myCountry];
       const confirmedData = [];
       const deathData = [];
+      const recoveredData = [];
       const xlabelsForChart = [];
       for (const dayData of myCountryData) {
         confirmedData.push(dayData.confirmed);
         deathData.push(dayData.deaths);
+        recoveredData.push(dayData.recovered);
         xlabelsForChart.push(dayData.date);
       }
       this.myCountryLatestData = {
@@ -148,32 +177,49 @@ export class HomeComponent implements OnInit {
         recovered: myCountryData[myCountryData.length - 1].recovered
       };
       const chart = new Chart(this.myCanvas.nativeElement.getContext('2d'), {
-        type: 'line',
+        type: 'LineWithLine',
         data: {
           labels: xlabelsForChart,
           datasets: [
-          {
-            label: 'Deaths',
-            data: deathData,
-            backgroundColor: '#13293D',
-            fill: 'origin',
-            pointRadius: 0,
-            cubicInterpolationMode: 'default'
-          },
-          {
-            label: 'Confirmed',
-            data: confirmedData,
-            backgroundColor: '#FB475E',
-            fill: '-1',
-            pointRadius: 1,
-            cubicInterpolationMode: 'default'
-          }]
+            {
+              label: 'Confirmed',
+              data: confirmedData,
+              backgroundColor: '#FB475E',
+              borderColor: '#FB475E',
+              fill: false,
+              pointRadius: 2
+            },
+            {
+              label: 'Recovered',
+              data: recoveredData,
+              backgroundColor: '#4CB944',
+              borderColor: '#4CB944',
+              fill: false,
+              pointRadius: 2
+            },
+            {
+              label: 'Deaths',
+              data: deathData,
+              backgroundColor: '#13293D',
+              borderColor: '#13293D',
+              fill: false,
+              pointRadius: 2
+            }
+          ]
         },
         options: {
           legend: { display: false },
           title: {
             display: false,
             text: 'No of Confirmed case for ' + this.myCountry
+          },
+          tooltips: {
+            mode: 'label'  // or 'x-axis'
+          },
+          elements: {
+            line: {
+                borderJoinStyle: 'round'
+            }
           },
           scales: {
             xAxes: [{
@@ -201,7 +247,9 @@ export class HomeComponent implements OnInit {
               }
             }],
             yAxes: [{
-              stacked: true
+              ticks: {
+                maxTicksLimit: 8
+              }
           }]
           }
         }
@@ -209,6 +257,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * Show no of cases of Indian states on horizontal bar
+   */
   showIndiaRegionalChart() {
     this.homeService.getIndiaRegionalData().subscribe(response => {
       // console.log(response);

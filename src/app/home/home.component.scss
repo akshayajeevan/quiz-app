@@ -7,13 +7,14 @@
 }
 
 @media (max-width: 480px) {
+  #canvas {
+    width: 500px !important;
+  }
   .chart-card, #canvas {
-    width: 400px !important;
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;
   }
-
   .scroll-row {
     overflow-x: auto;
     white-space: nowrap;
