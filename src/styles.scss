@@ -16,6 +16,32 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   }
 }
 
+@media (max-width: 480px) {
+  .container {
+      padding: 0;
+      overflow-x: hidden;
+      margin-left: 0;
+      margin-right: 0;
+  }
+  .col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+  .container {
+    padding: 10px;
+    overflow-x: hidden;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+}
+
 .cust-toolbr {
   flex: 1 1 auto
 }

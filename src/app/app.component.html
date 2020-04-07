@@ -1,6 +1,6 @@
 <app-header [inputSideNav]="snav"></app-header>
 <mat-sidenav-container class="custom-sidenav-container">
-  <mat-sidenav #snav mode="side" fixedInViewport="true" fixedTopGap="60">
+  <mat-sidenav #snav mode="over" fixedInViewport="true" fixedTopGap="60">
     <mat-nav-list (click)="snav.toggle()">
       <a mat-list-item routerLink="/home">Home</a>
       <a mat-list-item routerLink="/sources">Details</a>
