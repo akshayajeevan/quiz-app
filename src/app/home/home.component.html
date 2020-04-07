@@ -4,16 +4,16 @@
     <p><em>live data for India: related to COVID 19 diagnosis, recovery and deaths</em></p>
   </div>
   <div class="row mb-2">
-    <div class="col-4 col-sm-4">
-      <mat-card class="chart-card">
+    <div class="col-12 col-sm-4 col-md-4">
+      <mat-card class="data-card">
         <mat-card-content>
           <p>as of today, total confirmed cases</p>
           <h2>{{myCountryLatestData.confirmed}}</h2>
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col-4 col-sm-4">
-      <mat-card class="chart-card">
+    <div class="col-12 col-sm-4 col-md-4">
+      <mat-card class="data-card">
         <mat-card-content>
           <p>total deaths</p>
           <h2 style="color: darkred;">{{myCountryLatestData.deaths}}</h2> with
@@ -21,8 +21,8 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col-4 col-sm-4">
-      <mat-card class="chart-card">
+    <div class="col-12 col-sm-4 col-md-4">
+      <mat-card class="data-card">
         <mat-card-content>
           <p>total recovered</p>
           <h2 style="color: darkgreen;">{{myCountryLatestData.recovered}}</h2> with
@@ -31,9 +31,9 @@
       </mat-card>
     </div>
   </div>
-  <div class="row mb-2">
-    <div class="col-6 col-sm-6">
-      <mat-card class="chart-card">
+  <div class="row mb-2 sroll-row">
+    <div class="col col-12 col-sm-12 col-md-6">
+      <mat-card class="data-card chart-card">
         <mat-card-header>
           <mat-card-title>No of Confirmed case for {{myCountry}}</mat-card-title>
           <mat-card-subtitle><em><small>Updates on everyday EOD</small></em></mat-card-subtitle>
@@ -43,14 +43,14 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col-6 col-sm-6">
-      <mat-card class="chart-card">
+    <div class="col col-12 col-sm-12 col-md-6">
+      <mat-card class="data-card chart-card">
         <mat-card-header>
           <mat-card-title>No of Cases for Indian States</mat-card-title>
           <mat-card-subtitle><em><small>Last Updated on {{indiaRegLastRefreshed | date: 'long'}}</small></em></mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <canvas #indiaregional role="img" height="350">Your browser does not support.</canvas>
+          <canvas #indiaregional id="canvas" role="img" height="350">Your browser does not support.</canvas>
         </mat-card-content>
       </mat-card>
     </div>
