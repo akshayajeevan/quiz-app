@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CustomMaterialModule } from './material.module';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe, DecimalPipe } from '@angular/common';
 // Components
 import { AppComponent } from './app.component';
@@ -21,6 +21,8 @@ import { AnimateNumerComponent } from './animate-number/animate-number.component
 // Services
 import { DataService } from './shared/data.service';
 import { HomeService } from './home/home.service';
+
+import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
 
 @NgModule({
   declarations: [
@@ -47,7 +49,12 @@ import { HomeService } from './home/home.service';
     DataService,
     HomeService,
     DatePipe,
-    DecimalPipe
+    DecimalPipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

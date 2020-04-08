@@ -13,7 +13,7 @@ export class AppComponent {
 
   constructor(private data: DataService) {
     this.data.currentView.subscribe(currentRoute => {
-      console.log(currentRoute);
+      //console.log(currentRoute);
       // if (currentRoute !== '/login' || currentRoute !== '/') {
       //   this.showHeaderFooter = true;
       // }

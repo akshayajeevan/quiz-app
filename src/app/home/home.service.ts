@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HomeService {
 
+  randomNo = Math.floor(Math.random() * 100);
   dailyTimelineUrl = 'https://pomber.github.io/covid19/timeseries.json';
-
   indiaRegDataUrl = 'https://api.rootnet.in/covid19-in/stats/latest';
 
   constructor(private http: HttpClient) { }
@@ -21,10 +21,10 @@ export class HomeService {
   }
 
   getDailyData() {
-    return this.http.get(this.dailyTimelineUrl);
+    return this.http.get(this.dailyTimelineUrl + '?' + this.randomNo);
   }
 
   getIndiaRegionalData() {
-    return this.http.get(this.indiaRegDataUrl);
+    return this.http.get(this.indiaRegDataUrl + '?' + this.randomNo);
   }
 }

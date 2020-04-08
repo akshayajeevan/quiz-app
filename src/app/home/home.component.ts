@@ -19,7 +19,8 @@ export class HomeComponent implements OnInit {
     deaths: 0,
     recovered: 0,
     deathRate: 0,
-    recoveryRate: 0
+    recoveryRate: 0,
+    lastRefreshedDate: ''
   };
   indiaSummary: any;
   indiaRegLastRefreshed: [];
@@ -52,9 +53,9 @@ export class HomeComponent implements OnInit {
 
   showDailyChart() {
     this.homeService.getDailyData().subscribe(response => {
-      response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
-        console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
-      );
+      // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
+      //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
+      // );
       // let lastDate = new Date();
       // lastDate.setDate(lastDate.getDate() - 1);
       // let today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
@@ -73,7 +74,8 @@ export class HomeComponent implements OnInit {
         deaths: myCountryData[myCountryData.length - 1].deaths,
         recovered: myCountryData[myCountryData.length - 1].recovered,
         deathRate: 0,
-        recoveryRate: 0
+        recoveryRate: 0,
+        lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
       };
       const chart = new Chart(this.myCanvas.nativeElement.getContext('2d'), {
         type: 'bar',
@@ -160,9 +162,9 @@ export class HomeComponent implements OnInit {
       }
     });
     this.homeService.getDailyData().subscribe(response => {
-      response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
-        console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
-      );
+      // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
+      //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
+      // );
       const myCountryData = response[this.myCountry];
       const confirmedData = [];
       const deathData = [];
@@ -179,7 +181,8 @@ export class HomeComponent implements OnInit {
         deaths: myCountryData[myCountryData.length - 1].deaths,
         recovered: myCountryData[myCountryData.length - 1].recovered,
         deathRate: 0,
-        recoveryRate: 0
+        recoveryRate: 0,
+        lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
       };
       const deathRate = (this.myCountryLatestData.deaths / this.myCountryLatestData.confirmed) * 100;
       this.myCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
@@ -217,6 +220,8 @@ export class HomeComponent implements OnInit {
           ]
         },
         options: {
+          responsive: true,
+          maintainAspectRatio: false,
           legend: { display: false },
           title: {
             display: false,
@@ -325,7 +330,7 @@ export class HomeComponent implements OnInit {
           },
           options: {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             legend: { display: false },
             title: {
               display: false,
@@ -339,6 +344,7 @@ export class HomeComponent implements OnInit {
                 }
               }],
               yAxes: [{
+                barThickness: 10,
                 stepSize: 1,
                 stacked: true,
                 gridLines: {

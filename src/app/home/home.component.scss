@@ -1,4 +1,7 @@
 
+#canvas {
+  min-height: 400px;
+}
 .data-card {
   width: 100%;
   height: 100%;
@@ -9,6 +12,7 @@
 @media (max-width: 480px) {
   #canvas {
     width: 500px !important;
+    min-height: 500px !important;
   }
   .chart-card, #canvas {
     overflow-x: auto;
@@ -18,6 +22,9 @@
   .scroll-row {
     overflow-x: auto;
     white-space: nowrap;
+  }
+  .col-12 {
+    padding: 2px;
   }
 }
 
