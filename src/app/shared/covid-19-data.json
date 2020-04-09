@@ -1,0 +1,28 @@
+{
+  "India": {
+    "info": {
+      "telephone": "+91-11-23978046",
+      "email": "ncov2019@gov.in",
+      "moh": "https://www.mohfw.gov.in/",
+      "websites": [
+        {
+          "name": "States helpline",
+          "site": "https://www.mohfw.gov.in/pdf/coronvavirushelplinenumber.pdf"
+        }
+      ]
+    }
+  },
+  "Germany": {
+    "info": {
+      "telephone": "116 117",
+      "email": null,
+      "moh": "https://www.bundesgesundheitsministerium.de/coronavirus.html",
+      "websites": [
+        {
+          "name": "Robert Koch Institut",
+          "site": "https://www.rki.de/DE/Content/InfAZ/N/Neuartiges_Coronavirus/nCoV.html"
+        }
+      ]
+    }
+  }
+}

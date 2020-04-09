@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HomeService } from './home.service';
 import { DecimalPipe } from '@angular/common';
+import covidCountryInfo from '../shared/covid-19-data.json';
 import Chart from 'chart.js';
 
 @Component({
@@ -9,12 +10,15 @@ import Chart from 'chart.js';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  loggedInUser: any = {};
-  catergoryList: any;
-
-  myCountry = 'India';
-  myCountryLatestData = {
+  // default country selector
+  selectedCountry = 'India';
+  // chart variables
+  dailyChart: any;
+  regionalChart: any;
+  // global varibales for data
+  allCountryDailyData: any;
+  regionalData: any;
+  selectedCountryLatestData = {
     confirmed: 0,
     deaths: 0,
     recovered: 0,
@@ -22,45 +26,48 @@ export class HomeComponent implements OnInit {
     recoveryRate: 0,
     lastRefreshedDate: ''
   };
-  indiaSummary: any;
-  indiaRegLastRefreshed: [];
+  regLastRefreshed: any;
+  usefulInfo: any;
 
-  @ViewChild('myCanvas', { static: true }) myCanvas: ElementRef;
-  @ViewChild('indiaregional', { static: true }) indiaRegional: ElementRef;
+  // canvas elements
+  @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
+  @ViewChild('regionalcanvas', { static: true }) regionalCanvas: ElementRef;
 
   constructor(private homeService: HomeService, private decimalPipe: DecimalPipe) {
 
   }
 
   ngOnInit() {
-    // this.homeService.getUserDetails().subscribe(response => {
-    //   console.log(response);
-    //   if (!!response) {
-    //     this.loggedInUser = response[0];
-    //   }
-    // });
-    // Chart.plugins.register({
-    //   beforeDraw: function(chartInstance) {
-    //     const ctx = chartInstance.chart.ctx;
-    //     ctx.fillStyle = 'white';
-    //     ctx.fillRect(0, 0, chartInstance.chart.width, chartInstance.chart.height);
-    //   }
-    // });
-    // this.showDailyChart();
-    this.showDailyChartLine();
-    this.showIndiaRegionalChart();
-  }
-
-  showDailyChart() {
+    this.usefulInfo = covidCountryInfo[this.selectedCountry];
     this.homeService.getDailyData().subscribe(response => {
       // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
       //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
       // );
-      // let lastDate = new Date();
-      // lastDate.setDate(lastDate.getDate() - 1);
-      // let today = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
-      // let yesterday = this.datePipe.transform(lastDate, 'yyyy-MM-dd');
-      const myCountryData = response[this.myCountry];
+      this.allCountryDailyData = response;
+      this.showDailyChartLine();
+    });
+    this.homeService.getRegionalData(this.selectedCountry).subscribe(response => {
+      this.regionalData = response;
+      this.showRegionalChart(); // comment
+    });
+  }
+
+  countryChange() {
+    console.log('Selected Country=' + this.selectedCountry);
+    this.usefulInfo = covidCountryInfo[this.selectedCountry];
+    this.updateDailyChartLine();
+    this.homeService.getRegionalData(this.selectedCountry).subscribe(response => {
+      this.regionalData = response;
+      this.updateRegionalData();
+    });
+  }
+
+  /**
+   * @deprecated for now
+   */
+  showDailyChart() {
+    this.homeService.getDailyData().subscribe(response => {
+      const myCountryData = response[this.selectedCountry];
       const confirmedData = [];
       const deathData = [];
       const xlabelsForChart = [];
@@ -69,7 +76,7 @@ export class HomeComponent implements OnInit {
         deathData.push({x: dayData.date, y: dayData.deaths});
         xlabelsForChart.push(dayData.date);
       }
-      this.myCountryLatestData = {
+      this.selectedCountryLatestData = {
         confirmed: myCountryData[myCountryData.length - 1].confirmed,
         deaths: myCountryData[myCountryData.length - 1].deaths,
         recovered: myCountryData[myCountryData.length - 1].recovered,
@@ -77,7 +84,7 @@ export class HomeComponent implements OnInit {
         recoveryRate: 0,
         lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
       };
-      const chart = new Chart(this.myCanvas.nativeElement.getContext('2d'), {
+      this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
         type: 'bar',
         data: {
           labels: xlabelsForChart,
@@ -96,7 +103,7 @@ export class HomeComponent implements OnInit {
           legend: { display: false },
           title: {
             display: false,
-            text: 'No of Confirmed case for ' + this.myCountry
+            text: 'Daily cases for ' + this.selectedCountry
           },
           scales: {
             xAxes: [{
@@ -139,6 +146,7 @@ export class HomeComponent implements OnInit {
   showDailyChartLine() {
     Chart.defaults.LineWithLine = Chart.defaults.line;
     Chart.controllers.LineWithLine = Chart.controllers.line.extend({
+      // tslint:disable-next-line: object-literal-shorthand
       draw: function(ease) {
           Chart.controllers.line.prototype.draw.call(this, ease);
 
@@ -161,34 +169,30 @@ export class HomeComponent implements OnInit {
           }
       }
     });
-    this.homeService.getDailyData().subscribe(response => {
-      // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
-      //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
-      // );
-      const myCountryData = response[this.myCountry];
-      const confirmedData = [];
-      const deathData = [];
-      const recoveredData = [];
-      const xlabelsForChart = [];
-      for (const dayData of myCountryData) {
-        confirmedData.push(dayData.confirmed);
-        deathData.push(dayData.deaths);
-        recoveredData.push(dayData.recovered);
-        xlabelsForChart.push(dayData.date);
-      }
-      this.myCountryLatestData = {
-        confirmed: myCountryData[myCountryData.length - 1].confirmed,
-        deaths: myCountryData[myCountryData.length - 1].deaths,
-        recovered: myCountryData[myCountryData.length - 1].recovered,
-        deathRate: 0,
-        recoveryRate: 0,
-        lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
-      };
-      const deathRate = (this.myCountryLatestData.deaths / this.myCountryLatestData.confirmed) * 100;
-      this.myCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
-      const recoveryRate = (this.myCountryLatestData.recovered / this.myCountryLatestData.confirmed) * 100;
-      this.myCountryLatestData.recoveryRate = Number(this.decimalPipe.transform(recoveryRate, '1.2-2'));
-      const chart = new Chart(this.myCanvas.nativeElement.getContext('2d'), {
+    const selectedCountryData = this.allCountryDailyData[this.selectedCountry];
+    const confirmedData = [];
+    const deathData = [];
+    const recoveredData = [];
+    const xlabelsForChart = [];
+    for (const dayData of selectedCountryData) {
+      confirmedData.push(dayData.confirmed);
+      deathData.push(dayData.deaths);
+      recoveredData.push(dayData.recovered);
+      xlabelsForChart.push(dayData.date);
+    }
+    this.selectedCountryLatestData = {
+      confirmed: selectedCountryData[selectedCountryData.length - 1].confirmed,
+      deaths: selectedCountryData[selectedCountryData.length - 1].deaths,
+      recovered: selectedCountryData[selectedCountryData.length - 1].recovered,
+      deathRate: 0,
+      recoveryRate: 0,
+      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
+    };
+    const deathRate = (this.selectedCountryLatestData.deaths / this.selectedCountryLatestData.confirmed) * 100;
+    this.selectedCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
+    const recoveryRate = (this.selectedCountryLatestData.recovered / this.selectedCountryLatestData.confirmed) * 100;
+    this.selectedCountryLatestData.recoveryRate = Number(this.decimalPipe.transform(recoveryRate, '1.2-2'));
+    this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
         type: 'LineWithLine',
         data: {
           labels: xlabelsForChart,
@@ -199,23 +203,23 @@ export class HomeComponent implements OnInit {
               backgroundColor: '#FB475E',
               borderColor: '#FB475E',
               fill: false,
-              pointRadius: 2
+              pointRadius: 3
             },
             {
               label: 'Recovered',
               data: recoveredData,
-              backgroundColor: '#4CB944',
-              borderColor: '#4CB944',
+              backgroundColor: '#24BE6C',
+              borderColor: '#24BE6C',
               fill: false,
-              pointRadius: 2
+              pointRadius: 3
             },
             {
               label: 'Deaths',
               data: deathData,
-              backgroundColor: '#13293D',
-              borderColor: '#13293D',
+              backgroundColor: '#05263B',
+              borderColor: '#05263B',
               fill: false,
-              pointRadius: 2
+              pointRadius: 3
             }
           ]
         },
@@ -223,10 +227,6 @@ export class HomeComponent implements OnInit {
           responsive: true,
           maintainAspectRatio: false,
           legend: { display: false },
-          title: {
-            display: false,
-            text: 'No of Confirmed case for ' + this.myCountry
-          },
           tooltips: {
             mode: 'label'  // or 'x-axis'
           },
@@ -268,99 +268,158 @@ export class HomeComponent implements OnInit {
           }
         }
       });
-    });
+  }
+
+  updateDailyChartLine() {
+    const selectedCountryData = this.allCountryDailyData[this.selectedCountry];
+    const confirmedData = [];
+    const deathData = [];
+    const recoveredData = [];
+    const xlabelsForChart = [];
+    for (const dayData of selectedCountryData) {
+      confirmedData.push(dayData.confirmed);
+      deathData.push(dayData.deaths);
+      recoveredData.push(dayData.recovered);
+      xlabelsForChart.push(dayData.date);
+    }
+    this.selectedCountryLatestData = {
+      confirmed: selectedCountryData[selectedCountryData.length - 1].confirmed,
+      deaths: selectedCountryData[selectedCountryData.length - 1].deaths,
+      recovered: selectedCountryData[selectedCountryData.length - 1].recovered,
+      deathRate: 0,
+      recoveryRate: 0,
+      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
+    };
+    const deathRate = (this.selectedCountryLatestData.deaths / this.selectedCountryLatestData.confirmed) * 100;
+    this.selectedCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
+    const recoveryRate = (this.selectedCountryLatestData.recovered / this.selectedCountryLatestData.confirmed) * 100;
+    this.selectedCountryLatestData.recoveryRate = Number(this.decimalPipe.transform(recoveryRate, '1.2-2'));
+
+    this.dailyChart.data.labels = xlabelsForChart;
+    this.dailyChart.data.datasets[0].data = confirmedData;
+    this.dailyChart.data.datasets[1].data = recoveredData;
+    this.dailyChart.data.datasets[2].data = deathData;
+
+    this.dailyChart.update();
   }
 
   /**
    * Show no of cases of Indian states on horizontal bar
    */
-  showIndiaRegionalChart() {
-    this.homeService.getIndiaRegionalData().subscribe(response => {
-      // console.log(response);
+  showRegionalChart() {
+    // console.log(response);
+    this.regLastRefreshed = this.regionalData.lastRefreshed;
+    if (this.regionalData.success) {
+      const regData: any = this.regionalData.data;
+      const sortedRegionalData = regData.regional.sort((a, b) => {
+        const aTotal = a.totalConfirmed;
+        const bTotal = b.totalConfirmed;
+        return (bTotal - aTotal);
+      });
       const ylabelsForChart = [];
-      // tslint:disable-next-line: no-string-literal
-      this.indiaRegLastRefreshed = response['lastRefreshed'];
-      // tslint:disable-next-line: no-string-literal
-      if (response['success']) {
-        // tslint:disable-next-line: no-string-literal
-        const indiaRegData: any = response['data'];
-        // tslint:disable-next-line: no-string-literal
-        this.indiaSummary = indiaRegData.summary;
-        const sortedRegionalData = indiaRegData.regional.sort((a, b) => {
-          const aTotal = a.confirmedCasesIndian + a.discharged + a.deaths + a.confirmedCasesForeign;
-          const bTotal = b.confirmedCasesIndian + b.discharged + b.deaths + b.confirmedCasesForeign;
-          return (bTotal - aTotal);
-        });
-        const confirmedCasesIndian = [];
-        const confirmedCasesForeign = [];
-        const discharged = [];
-        const deaths = [];
-        for (const region of sortedRegionalData) {
-          ylabelsForChart.push(region.loc);
-          confirmedCasesIndian.push(region.confirmedCasesIndian);
-          confirmedCasesForeign.push(region.confirmedCasesForeign);
-          discharged.push(region.discharged);
-          deaths.push(region.deaths);
-        }
-
-        const chart = new Chart(this.indiaRegional.nativeElement.getContext('2d'), {
-          type: 'horizontalBar',
-          data: {
-            labels: ylabelsForChart,
-            datasets: [{
-              label: 'Indians Confirmed',
-              data: confirmedCasesIndian,
-              backgroundColor: '#FB475E'
-            },
-            {
-              label: 'Foreigners Confirmed',
-              data: confirmedCasesForeign,
-              backgroundColor: '#FFB001'
-            },
-            {
-              label: 'Discharged',
-              data: discharged,
-              backgroundColor: '#4CB944'
-            },
-            {
-              label: 'Deaths',
-              data: deaths,
-              backgroundColor: '#13293D'
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            legend: { display: false },
-            title: {
-              display: false,
-              text: 'No of Cases for Indian States'
-            },
-            scales: {
-              xAxes: [{
-                stacked: true,
-                gridLines: {
-                  drawOnChartArea: false
-                }
-              }],
-              yAxes: [{
-                barThickness: 10,
-                stepSize: 1,
-                stacked: true,
-                gridLines: {
-                  drawOnChartArea: false
-                },
-                ticks: {
-                  autoSkip: false
-                }
-              }]
-            }
-          }
-        });
-      } else {
-
+      const confirmedCases = [];
+      const discharged = [];
+      const deaths = [];
+      for (const region of sortedRegionalData) {
+        ylabelsForChart.push(region.loc);
+        confirmedCases.push(region.totalConfirmed);
+        discharged.push(region.discharged);
+        deaths.push(region.deaths);
       }
-    });
+      this.regionalChart = new Chart(this.regionalCanvas.nativeElement.getContext('2d'), {
+        type: 'horizontalBar',
+        data: {
+          labels: ylabelsForChart,
+          datasets: [{
+            label: 'Confirmed',
+            data: confirmedCases,
+            backgroundColor: '#FB475E'
+          },
+          {
+            label: 'Discharged',
+            data: discharged,
+            backgroundColor: '#24BE6C'
+          },
+          {
+            label: 'Deaths',
+            data: deaths,
+            backgroundColor: '#05263B'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          legend: { display: false },
+          scales: {
+            xAxes: [{
+              stacked: true,
+              gridLines: {
+                drawOnChartArea: false
+              },
+              ticks: {
+                maxTicksLimit: 8
+              }
+            }],
+            yAxes: [{
+              barThickness: 10,
+              minBarLength: 5,
+              stepSize: 1,
+              stacked: true,
+              gridLines: {
+                drawOnChartArea: false
+              },
+              ticks: {
+                autoSkip: false
+              }
+            }]
+          }
+        }
+      });
+    } else {
+
+    }
+  }
+
+  updateRegionalData() {
+    const ylabelsForChart = [];
+    const confirmedCases = [];
+    const discharged = [];
+    const deaths = [];
+    if (this.selectedCountry === 'India') {
+      this.regLastRefreshed = this.regionalData.lastRefreshed;
+      const regData: any = this.regionalData.data;
+      const sortedRegionalData = regData.regional.sort((a, b) => {
+        const aTotal = a.totalConfirmed;
+        const bTotal = b.totalConfirmed;
+        return (bTotal - aTotal);
+      });
+      for (const region of sortedRegionalData) {
+        ylabelsForChart.push(region.loc);
+        confirmedCases.push(region.totalConfirmed);
+        discharged.push(region.discharged);
+        deaths.push(region.deaths);
+      }
+    }
+    if (this.selectedCountry === 'Germany') {
+      const sortedRegionalData = this.regionalData.features.sort((a, b) => {
+        const aTotal = a.attributes.Fallzahl;
+        const bTotal = b.attributes.Fallzahl;
+        return (bTotal - aTotal);
+      });
+      for (const region of sortedRegionalData) {
+        ylabelsForChart.push(region.attributes.LAN_ew_GEN);
+        confirmedCases.push(region.attributes.Fallzahl);
+        // discharged.push('NA');
+        deaths.push(region.attributes.Death);
+        this.regLastRefreshed = region.attributes.Aktualisierung;
+      }
+    }
+
+    this.regionalChart.data.labels = ylabelsForChart;
+    this.regionalChart.data.datasets[0].data = confirmedCases;
+    this.regionalChart.data.datasets[1].data = discharged;
+    this.regionalChart.data.datasets[2].data = deaths;
+    this.regionalChart.update();
   }
 
 }

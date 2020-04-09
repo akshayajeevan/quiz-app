@@ -31,3 +31,19 @@
 .mat-expansion-panel, .mat-expansion-panel-header, .mat-expansion-panel-header:hover {
   background-color: #FB475E; color: white;
 }
+
+.country-select {
+  border-radius: 0;
+  border-width: 0;
+  -webkit-appearance: none;
+  background-color: #05263B;
+  color: #ECF0F6;
+  text-align: center;
+  text-align-last: center;
+  -moz-text-align-last: center;
+}
+
+.country-opt {
+  background-color: #ECF0F6;
+  color: #05263B;
+}

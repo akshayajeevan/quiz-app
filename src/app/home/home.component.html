@@ -1,15 +1,21 @@
 <div class="container">
   <div class="text-center pt-1">
-    <h3 class="display-4">COVID-19 data for {{myCountry}}</h3>
-    <p><em>real data for India: related to COVID 19 diagnosis, recovery and deaths</em></p>
+    <h3 class="display-4">COVID-19 data for
+      <select class="w-auto country-select" [(ngModel)]="selectedCountry" data-size="1" (change)="countryChange()">
+        <option value="India" class="country-opt">India</option>
+        <option value="Germany" class="country-opt">Germany</option>
+        <!-- <option value="US" class="country-opt">US</option> -->
+    </select>
+    </h3>
+    <p><em>real data for {{selectedCountry}}: related to COVID-19 diagnosis, recovery and deaths</em></p>
   </div>
   <div class="row mb-2">
     <div class="col col-12 col-sm-4 col-md-4">
       <mat-card class="data-card">
         <mat-card-content>
-          <p>as of today, total confirmed cases</p>
-          <h2 class="display-4">
-            <app-animate-number [digit]="myCountryLatestData.confirmed" [duration]="1000" [steps]="0">
+          <p>as of {{selectedCountryLatestData.lastRefreshedDate | date: 'mediumDate'}}, total confirmed cases</p>
+          <h2 class="display-4" style="color: #FB475E;">
+            <app-animate-number [digit]="selectedCountryLatestData.confirmed" [duration]="1000" [steps]="0">
             </app-animate-number>
           </h2>
         </mat-card-content>
@@ -19,9 +25,9 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>total deaths</p>
-          <h2 class="display-4" style="color: darkred;">
-            <app-animate-number [digit]="myCountryLatestData.deaths" [duration]="1000" [steps]="0"></app-animate-number>
-          </h2>with {{myCountryLatestData.deathRate}}% death rate
+          <h2 class="display-4">
+            <app-animate-number [digit]="selectedCountryLatestData.deaths" [duration]="1000" [steps]="0"></app-animate-number>
+          </h2>with {{selectedCountryLatestData.deathRate}}% death rate
         </mat-card-content>
       </mat-card>
     </div>
@@ -29,11 +35,11 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>total recovered</p>
-          <h2 class="display-4" style="color: darkgreen;">
-            <app-animate-number [digit]="myCountryLatestData.recovered" [duration]="1000" [steps]="0">
+          <h2 class="display-4" style="color: #24BE6C;">
+            <app-animate-number [digit]="selectedCountryLatestData.recovered" [duration]="1000" [steps]="0">
             </app-animate-number>
           </h2> with
-          {{myCountryLatestData.recoveryRate}}% recovery rate
+          {{selectedCountryLatestData.recoveryRate}}% recovery rate
         </mat-card-content>
       </mat-card>
     </div>
@@ -42,24 +48,24 @@
     <div class="col col-12 col-sm-12 col-md-6">
       <mat-card class="data-card chart-card">
         <mat-card-header>
-          <mat-card-title>No of Confirmed case for {{myCountry}}</mat-card-title>
+          <mat-card-title>Daily cases for {{selectedCountry}}</mat-card-title>
           <mat-card-subtitle><em><small>Last Updated on
-                {{myCountryLatestData.lastRefreshedDate | date: 'long'}}</small></em></mat-card-subtitle>
+                {{selectedCountryLatestData.lastRefreshedDate | date: 'long'}}</small></em></mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <canvas #myCanvas id="canvas" role="img">Your browser does not support.</canvas>
+          <canvas #dailycanvas id="canvas" role="img">Your browser does not support.</canvas>
         </mat-card-content>
       </mat-card>
     </div>
     <div class="col col-12 col-sm-12 col-md-6">
       <mat-card class="data-card chart-card">
         <mat-card-header>
-          <mat-card-title>No of Cases for Indian States</mat-card-title>
-          <mat-card-subtitle><em><small>Last Updated on {{indiaRegLastRefreshed | date: 'long'}}</small></em>
+          <mat-card-title>No of Cases for States in {{selectedCountry}}</mat-card-title>
+          <mat-card-subtitle><em><small>Last Updated on {{regLastRefreshed | date: 'long'}}</small></em>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <canvas #indiaregional id="canvas" role="img">Your browser does not support.</canvas>
+          <canvas #regionalcanvas id="canvas" role="img">Your browser does not support.</canvas>
         </mat-card-content>
       </mat-card>
     </div>
@@ -72,28 +78,25 @@
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>Indian Govt Helpline No</p>
-            <!-- <mat-icon aria-hidden="false"> phone</mat-icon> -->
-            <p style="color: darkred;"><strong> +91-11-23978046 </strong> (Toll Free : 1075)</p>
+            <p>Call</p>
+            <p class="h3"> {{usefulInfo.info.telephone}}</p>
           </mat-card-content>
         </mat-card>
       </div>
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>Indian Govt Helpline Email</p>
-            <!-- <mat-icon aria-hidden="false"> mail_outline</mat-icon> -->
-            <p style="color: darkred;"><a style="color: darkred;" href="mailto:ncov2019@gov.in">ncov2019@gov.in</a>
+            <p>Visit</p>
+            <p class="h3"><a style="color: #05263B;" target="_blank" href="{{usefulInfo.info.moh}}">Ministry of Health ({{selectedCountry}})</a></p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="col col-12 col-sm-4 col-md-4">
+        <mat-card class="data-card">
+          <mat-card-content>
+            <p>More Info</p>
+            <p class="h3" *ngFor="let web of usefulInfo.info.websites"><a style="color: #05263B;" target="_blank" href="{{web.site}}">{{web.name}}</a>
             </p>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col col-12 col-sm-4 col-md-4">
-        <mat-card class="data-card">
-          <mat-card-content>
-            <p>For more details</p>
-            <p style="color: darkgreen;"><a style="color: darkgreen;" target="_blank"
-                href="https://www.mohfw.gov.in/">Ministry of Health and Family Welfare</a></p>
           </mat-card-content>
         </mat-card>
       </div>
