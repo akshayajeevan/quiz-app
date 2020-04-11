@@ -24,5 +24,18 @@
         }
       ]
     }
+  },
+  "USA": {
+    "info": {
+      "telephone": "Contact your doctor",
+      "email": null,
+      "moh": "https://www.hhs.gov/",
+      "websites": [
+        {
+          "name": "CDC USA",
+          "site": "https://www.cdc.gov/coronavirus/2019-ncov/index.html"
+        }
+      ]
+    }
   }
 }

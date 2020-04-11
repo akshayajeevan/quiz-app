@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.usefulInfo = covidCountryInfo[this.selectedCountry];
     this.homeService.getDailyData().subscribe(response => {
-      // response[this.myCountry].forEach(({ date, confirmed, recovered, deaths }) =>
+      // response['US'].forEach(({ date, confirmed, recovered, deaths }) =>
       //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
       // );
       this.allCountryDailyData = response;
@@ -203,7 +203,7 @@ export class HomeComponent implements OnInit {
               backgroundColor: '#FB475E',
               borderColor: '#FB475E',
               fill: false,
-              pointRadius: 3
+              pointRadius: 4
             },
             {
               label: 'Recovered',
@@ -228,7 +228,8 @@ export class HomeComponent implements OnInit {
           maintainAspectRatio: false,
           legend: { display: false },
           tooltips: {
-            mode: 'label'  // or 'x-axis'
+            mode: 'label',  // or 'x-axis',
+            intersect: false
           },
           elements: {
             line: {
@@ -270,8 +271,11 @@ export class HomeComponent implements OnInit {
       });
   }
 
+  /**
+   * Update Daily cases chart on country selection
+   */
   updateDailyChartLine() {
-    const selectedCountryData = this.allCountryDailyData[this.selectedCountry];
+    const selectedCountryData = this.allCountryDailyData[this.selectedCountry === 'USA' ? 'US' : this.selectedCountry];
     const confirmedData = [];
     const deathData = [];
     const recoveredData = [];
@@ -304,7 +308,7 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Show no of cases of Indian states on horizontal bar
+   * Show no of cases of states on horizontal bar
    */
   showRegionalChart() {
     // console.log(response);
@@ -350,6 +354,9 @@ export class HomeComponent implements OnInit {
           responsive: true,
           maintainAspectRatio: false,
           legend: { display: false },
+          tooltips: {
+            intersect: false
+          },
           scales: {
             xAxes: [{
               stacked: true,
@@ -380,6 +387,9 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Update states cases chart on country selection
+   */
   updateRegionalData() {
     const ylabelsForChart = [];
     const confirmedCases = [];
@@ -412,6 +422,30 @@ export class HomeComponent implements OnInit {
         // discharged.push('NA');
         deaths.push(region.attributes.Death);
         this.regLastRefreshed = region.attributes.Aktualisierung;
+      }
+    }
+
+    if (this.selectedCountry === 'USA') {
+      this.regLastRefreshed = this.regionalData.lastRefreshed;
+      const states = Object.keys(this.regionalData);
+      const regData = [];
+      states.forEach(state => {
+        if (state !== 'lastRefreshed') {
+          const stateData = this.regionalData[state];
+          const lastData = stateData[stateData.length - 1];
+          regData.push({loc: state, data: lastData});
+        }
+      });
+      const sortedRegionalData = regData.sort((a, b) => {
+        const aTotal = a.data.confirmed;
+        const bTotal = b.data.confirmed;
+        return (bTotal - aTotal);
+      });
+      console.log(sortedRegionalData);
+      for (const region of sortedRegionalData) {
+        ylabelsForChart.push(region.loc);
+        confirmedCases.push(region.data.confirmed);
+        deaths.push(region.data.deaths);
       }
     }
 

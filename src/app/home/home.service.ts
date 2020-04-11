@@ -13,6 +13,8 @@ export class HomeService {
   // tslint:disable-next-line: max-line-length
   germanyRegDataUrl = 'https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/Coronaf%C3%A4lle_in_den_Bundesl%C3%A4ndern/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Kilometer&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=none&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=';
 
+  usRegionalDataUrl = 'https://akshayajeevan.github.io/covid19-us-states/timeseries.json';
+
   constructor(private http: HttpClient) { }
 
   // getUserDetails() {
@@ -34,6 +36,9 @@ export class HomeService {
     }
     if (selectedCountry === 'India') {
       url = this.indiaRegDataUrl;
+    }
+    if (selectedCountry === 'USA') {
+      url = this.usRegionalDataUrl;
     }
     return this.http.get(url);
   }

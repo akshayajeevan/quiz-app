@@ -4,7 +4,7 @@
       <select class="w-auto country-select" [(ngModel)]="selectedCountry" data-size="1" (change)="countryChange()">
         <option value="India" class="country-opt">India</option>
         <option value="Germany" class="country-opt">Germany</option>
-        <!-- <option value="US" class="country-opt">US</option> -->
+        <option value="USA" class="country-opt">USA</option> -->
     </select>
     </h3>
     <p><em>real data for {{selectedCountry}}: related to COVID-19 diagnosis, recovery and deaths</em></p>
@@ -103,9 +103,8 @@
     </div>
   </mat-expansion-panel>
   <div class="text-center pt-3">
-    <p class="mb-0"><small>Daily Data retrieved from <a target="_blank"
-          href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins</a> via <a target="_blank"
-          href="https://github.com/pomber/covid19">@pomber</a></small></p>
+    <p class="mb-0"><small>Daily data retrieved from <a target="_blank"
+          href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins</a> and State data retrieved from official sources</small></p>
     <p class="mb-0"><small>developer details <a routerLink="/sources">here</a></small></p>
     <p class="mb-2"><small>Stay Home Stay Safe</small></p>
   </div>
