@@ -38,22 +38,17 @@ export class AnimateNumerComponent implements AfterViewInit, OnChanges {
     if (!this.steps) {
       this.steps = 12;
     }
-
     const stepCount = Math.abs(durationMs / this.steps);
     const valueIncrement = (endValue - 0) / stepCount;
-    const sinValueIncrement = Math.PI / stepCount;
 
     let currentValue = 0;
-    let currentSinValue = 0;
-
     function step() {
-      currentSinValue += sinValueIncrement;
-      currentValue += valueIncrement * Math.sin(currentSinValue) ** 2 * 2;
-
       element.nativeElement.textContent = Math.abs(Math.floor(currentValue));
-
-      if (currentSinValue < Math.PI) {
+      currentValue += valueIncrement * Math.abs(Math.sin(6) * 2 * 2);
+      if (currentValue < endValue) {
         window.requestAnimationFrame(step);
+      } else {
+        element.nativeElement.textContent = endValue;
       }
     }
 

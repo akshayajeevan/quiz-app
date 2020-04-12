@@ -15,7 +15,7 @@
         <mat-card-content>
           <p>as of {{selectedCountryLatestData.lastRefreshedDate | date: 'mediumDate'}}, total confirmed cases</p>
           <h2 class="display-4" style="color: #FB475E;">
-            <app-animate-number [digit]="selectedCountryLatestData.confirmed" [duration]="1000" [steps]="0">
+            <app-animate-number [digit]="selectedCountryLatestData.confirmed" [duration]="1000">
             </app-animate-number>
           </h2>
         </mat-card-content>
@@ -26,7 +26,7 @@
         <mat-card-content>
           <p>total deaths</p>
           <h2 class="display-4">
-            <app-animate-number [digit]="selectedCountryLatestData.deaths" [duration]="1000" [steps]="0"></app-animate-number>
+            <app-animate-number [digit]="selectedCountryLatestData.deaths" [duration]="1000"></app-animate-number>
           </h2>with {{selectedCountryLatestData.deathRate}}% death rate
         </mat-card-content>
       </mat-card>
@@ -36,7 +36,7 @@
         <mat-card-content>
           <p>total recovered</p>
           <h2 class="display-4" style="color: #24BE6C;">
-            <app-animate-number [digit]="selectedCountryLatestData.recovered" [duration]="1000" [steps]="0">
+            <app-animate-number [digit]="selectedCountryLatestData.recovered" [duration]="1000">
             </app-animate-number>
           </h2> with
           {{selectedCountryLatestData.recoveryRate}}% recovery rate
@@ -48,7 +48,7 @@
     <div class="col col-12 col-sm-12 col-md-6">
       <mat-card class="data-card chart-card">
         <mat-card-header>
-          <mat-card-title>Daily cases for {{selectedCountry}}</mat-card-title>
+          <mat-card-title>Daily cases in {{selectedCountry}}</mat-card-title>
           <mat-card-subtitle><em><small>Last Updated on
                 {{selectedCountryLatestData.lastRefreshedDate | date: 'long'}}</small></em></mat-card-subtitle>
         </mat-card-header>
@@ -60,7 +60,7 @@
     <div class="col col-12 col-sm-12 col-md-6">
       <mat-card class="data-card chart-card">
         <mat-card-header>
-          <mat-card-title>No of Cases for States in {{selectedCountry}}</mat-card-title>
+          <mat-card-title>Total Cases in States of {{selectedCountry}}</mat-card-title>
           <mat-card-subtitle><em><small>Last Updated on {{regLastRefreshed | date: 'long'}}</small></em>
           </mat-card-subtitle>
         </mat-card-header>

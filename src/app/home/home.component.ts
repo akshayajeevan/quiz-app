@@ -426,7 +426,6 @@ export class HomeComponent implements OnInit {
     }
 
     if (this.selectedCountry === 'USA') {
-      this.regLastRefreshed = this.regionalData.lastRefreshed;
       const states = Object.keys(this.regionalData);
       const regData = [];
       states.forEach(state => {
@@ -441,11 +440,11 @@ export class HomeComponent implements OnInit {
         const bTotal = b.data.confirmed;
         return (bTotal - aTotal);
       });
-      console.log(sortedRegionalData);
       for (const region of sortedRegionalData) {
         ylabelsForChart.push(region.loc);
         confirmedCases.push(region.data.confirmed);
         deaths.push(region.data.deaths);
+        this.regLastRefreshed = region.data.date;
       }
     }
 
