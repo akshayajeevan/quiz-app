@@ -122,9 +122,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
               stacked: true,
               type: 'time',
               distribution: 'linear',
-              ticks: {
-                maxTicksLimit: 8
-              },
               time: {
                 tooltipFormat: 'MMM DD',
                 displayFormats: {

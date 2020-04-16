@@ -2,9 +2,9 @@
   <div class="text-center pt-1">
     <h3 class="display-4">COVID-19 data for
       <select class="w-auto country-select" [(ngModel)]="selectedCountry" data-size="1" (change)="countryChange()">
-        <option value="India" class="country-opt">India</option>
         <option value="Germany" class="country-opt">Germany</option>
-        <option value="USA" class="country-opt">USA</option> -->
+        <option value="India" class="country-opt">India</option>
+        <option value="USA" class="country-opt">USA</option>
     </select>
     </h3>
     <p><em>real data for {{selectedCountry}}: related to COVID-19 diagnosis, recovery and deaths</em></p>
@@ -78,7 +78,7 @@
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>Call  &nbsp;<span [innerHTML]="callEmoji"></span></p>
+            <p>Call  &nbsp;<a *ngIf="selectedCountry !== 'USA'" href="tel:{{usefulInfo.info.telephone}}"><span [innerHTML]="callEmoji"></span></a></p>
             <p class="h3"> {{usefulInfo.info.telephone}}</p>
           </mat-card-content>
         </mat-card>
@@ -86,7 +86,7 @@
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>Check &nbsp;&nbsp;<mat-icon svgIcon="tweet" (click)="openTweetSheet()" style="cursor: pointer;"></mat-icon></p>
+            <p>Check &nbsp;<mat-icon svgIcon="tweet" (click)="openTweetSheet()" style="cursor: pointer;"></mat-icon></p>
             <p class="h3"><a style="color: #05263B;" target="_blank" href="{{usefulInfo.info.moh}}">Ministry of Health ({{selectedCountry}})</a></p>
           </mat-card-content>
         </mat-card>
