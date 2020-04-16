@@ -1,10 +1,13 @@
 <mat-toolbar color="primary" class="cust-toolbar">
   <button mat-icon-button (click)="inputSideNav.toggle()"><mat-icon>menu</mat-icon></button>
-  <h1 class="toolbar-app-name">{{title}}</h1>
+  <span class="toolbar-app-name">{{title}}</span>
   <span class="cust-toolbr"></span>
   <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Click Me!">
     <mat-icon>more_vert</mat-icon>
   </button> -->
+  <button mat-icon-button data-toggle="modal" data-target="#globalcount-modal" aria-label="Global Counts!" class="gbl-btn">
+    <span [innerHTML]="worldEmoji"></span> World
+  </button>
 </mat-toolbar>
 <!-- <mat-menu #menu="matMenu">
   <button mat-menu-item disabled>
@@ -19,3 +22,50 @@
     <span>Log Out</span>
   </button>
 </mat-menu> -->
+
+<div class="modal fade bd-example-modal-sm" id="globalcount-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content modal-bg">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle" *ngIf="!!covidGlobalCounts">Global Counts, as of {{covidGlobalCounts.lastRefreshedDate | date: 'mediumDate'}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span style="color: #ECF0F6;" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngIf="!!covidGlobalCounts">
+          <div class="col pt-2">
+            <mat-card class="data-card">
+              <mat-card-content>
+                <p>total confirmed cases</p>
+                <h2 class="display-4" style="color: #FB475E;">
+                  {{covidGlobalCounts.globalConfirmed | number}}
+                </h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col pt-2">
+            <mat-card class="data-card">
+              <mat-card-content>
+                <p>total deaths</p>
+                <h2 class="display-4">
+                  {{covidGlobalCounts.globalDeaths | number}}
+                </h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="col pt-2">
+            <mat-card class="data-card">
+              <mat-card-content>
+                <p>total recovered</p>
+                <h2 class="display-4" style="color: #24BE6C;">
+                  {{covidGlobalCounts.globalRecovered | number}}
+                </h2>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

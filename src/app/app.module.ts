@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { MatBottomSheet, MatBottomSheetContainer } from '@angular/material/bottom-sheet';
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -18,6 +19,7 @@ import { AboutMeComponent } from './about-me/about-me.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { SourcesComponent } from './sources/sources.component';
 import { AnimateNumerComponent } from './animate-number/animate-number.component';
+import { TweetSheetComponent } from './tweet-sheet/tweet-sheet.component';
 // Services
 import { DataService } from './shared/data.service';
 import { HomeService } from './home/home.service';
@@ -34,7 +36,8 @@ import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
     AboutMeComponent,
     QuizComponent,
     SourcesComponent,
-    AnimateNumerComponent
+    AnimateNumerComponent,
+    TweetSheetComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +49,7 @@ import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
     HttpClientModule
   ],
   providers: [
+    MatBottomSheet,
     DataService,
     HomeService,
     DatePipe,
@@ -56,7 +60,8 @@ import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
       multi: true
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [MatBottomSheetContainer, TweetSheetComponent]
 })
 
 export class AppModule { }

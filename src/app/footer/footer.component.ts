@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class FooterComponent {
 
+  clapEmoji = '&#128079;';
+
   constructor() {
 
   }

@@ -1,15 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { HomeService } from './home.service';
 import { DecimalPipe } from '@angular/common';
 import covidCountryInfo from '../shared/covid-19-data.json';
 import Chart from 'chart.js';
+import { DataService } from '../shared/data.service';
+import { HeaderComponent } from '../header/header.component';
+import { TweetSheetComponent } from '../tweet-sheet/tweet-sheet.component';
+import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   // default country selector
   selectedCountry = 'India';
   // chart variables
@@ -29,11 +33,14 @@ export class HomeComponent implements OnInit {
   regLastRefreshed: any;
   usefulInfo: any;
 
+  callEmoji = '&#128222;';
+  infoEmoji = '&#128220;';
+
   // canvas elements
   @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
   @ViewChild('regionalcanvas', { static: true }) regionalCanvas: ElementRef;
 
-  constructor(private homeService: HomeService, private decimalPipe: DecimalPipe) {
+  constructor(private homeService: HomeService, private decimalPipe: DecimalPipe, private bottomSheet: MatBottomSheet) {
 
   }
 
@@ -50,6 +57,11 @@ export class HomeComponent implements OnInit {
       this.regionalData = response;
       this.showRegionalChart(); // comment
     });
+  }
+
+  ngAfterViewInit() {
+    // @ts-ignore
+    twttr.widgets.load();
   }
 
   countryChange() {
@@ -337,17 +349,20 @@ export class HomeComponent implements OnInit {
           datasets: [{
             label: 'Confirmed',
             data: confirmedCases,
-            backgroundColor: '#FB475E'
+            backgroundColor: '#FB475E',
+            barThickness: 10
           },
           {
             label: 'Discharged',
             data: discharged,
-            backgroundColor: '#24BE6C'
+            backgroundColor: '#24BE6C',
+            barThickness: 10
           },
           {
             label: 'Deaths',
             data: deaths,
-            backgroundColor: '#05263B'
+            backgroundColor: '#05263B',
+            barThickness: 10
           }]
         },
         options: {
@@ -368,7 +383,6 @@ export class HomeComponent implements OnInit {
               }
             }],
             yAxes: [{
-              barThickness: 10,
               minBarLength: 5,
               stepSize: 1,
               stacked: true,
@@ -453,6 +467,13 @@ export class HomeComponent implements OnInit {
     this.regionalChart.data.datasets[1].data = discharged;
     this.regionalChart.data.datasets[2].data = deaths;
     this.regionalChart.update();
+  }
+
+  openTweetSheet() {
+    const config: MatBottomSheetConfig = {
+      data: this.selectedCountry
+    };
+    this.bottomSheet.open(TweetSheetComponent, config);
   }
 
 }

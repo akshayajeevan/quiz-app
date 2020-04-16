@@ -78,7 +78,7 @@
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>Call</p>
+            <p>Call  &nbsp;<span [innerHTML]="callEmoji"></span></p>
             <p class="h3"> {{usefulInfo.info.telephone}}</p>
           </mat-card-content>
         </mat-card>
@@ -86,7 +86,7 @@
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>Visit</p>
+            <p>Check &nbsp;&nbsp;<mat-icon svgIcon="tweet" (click)="openTweetSheet()" style="cursor: pointer;"></mat-icon></p>
             <p class="h3"><a style="color: #05263B;" target="_blank" href="{{usefulInfo.info.moh}}">Ministry of Health ({{selectedCountry}})</a></p>
           </mat-card-content>
         </mat-card>
@@ -94,7 +94,7 @@
       <div class="col col-12 col-sm-4 col-md-4">
         <mat-card class="data-card">
           <mat-card-content>
-            <p>More Info</p>
+            <p>More Info &nbsp;<span [innerHTML]="infoEmoji"></span></p>
             <p class="h3" *ngFor="let web of usefulInfo.info.websites"><a style="color: #05263B;" target="_blank" href="{{web.site}}">{{web.name}}</a>
             </p>
           </mat-card-content>

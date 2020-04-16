@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SourcesComponent implements OnInit {
 
+  smileEmoji = '&#128522;';
+  mailEmoji = '&#128231;';
+
   constructor() {
 
   }
