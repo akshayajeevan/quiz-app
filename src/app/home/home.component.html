@@ -17,7 +17,7 @@
           <h2 class="display-4" style="color: #FB475E;">
             <app-animate-number [digit]="selectedCountryLatestData.confirmed" [duration]="1000">
             </app-animate-number>
-          </h2>
+          </h2> last 1 day +{{selectedCountryLatestData.lastDayChange}} cases
         </mat-card-content>
       </mat-card>
     </div>
@@ -70,7 +70,7 @@
       </mat-card>
     </div>
   </div>
-  <mat-expansion-panel>
+  <mat-expansion-panel expanded hideToggle>
     <mat-expansion-panel-header>
       Useful Informations
     </mat-expansion-panel-header>
