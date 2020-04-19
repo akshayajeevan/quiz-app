@@ -3,8 +3,6 @@ import { HomeService } from './home.service';
 import { DecimalPipe } from '@angular/common';
 import covidCountryInfo from '../shared/covid-19-data.json';
 import Chart from 'chart.js';
-import { DataService } from '../shared/data.service';
-import { HeaderComponent } from '../header/header.component';
 import { TweetSheetComponent } from '../tweet-sheet/tweet-sheet.component';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 

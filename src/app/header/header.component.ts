@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { HomeService } from '../home/home.service';
 
 declare const gapi: any;
+declare var $: any;
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.homeService.getDailyData().subscribe(response => {
       this.calculateGlobalCounts(response);
+    }, error => {
+      $('#error-modal').modal('show');
     });
    }
 

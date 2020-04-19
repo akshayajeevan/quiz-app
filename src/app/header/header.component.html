@@ -22,9 +22,9 @@
     <span>Log Out</span>
   </button>
 </mat-menu> -->
-
-<div class="modal fade bd-example-modal-sm" id="globalcount-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- World count modal-->
+<div class="modal fade" id="globalcount-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-bg">
       <div class="modal-header">
         <h5 class="modal-title" id="modalTitle" *ngIf="!!covidGlobalCounts">Global Counts, as of {{covidGlobalCounts.lastRefreshedDate | date: 'mediumDate'}}</h5>
@@ -65,6 +65,19 @@
             </mat-card>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Error modal-->
+<div class="modal fade" tabindex="-1" role="dialog" id="error-modal" data-backdrop="static" data-keyboard="false" #errormodal>
+  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="display-4">Oops!</h1>
+      </div>
+      <div class="modal-body">
+        <p class="lead"><strong>Not able to access <a target="_blank" href="https://github.com/">github</a>. Please open this site on some other device or use your smartphone.</strong></p>
       </div>
     </div>
   </div>
