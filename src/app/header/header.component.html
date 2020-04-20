@@ -27,7 +27,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content modal-bg">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalTitle" *ngIf="!!covidGlobalCounts">Global Counts, as of {{covidGlobalCounts.lastRefreshedDate | date: 'mediumDate'}}</h5>
+        <h5 class="display-4" id="modalTitle" *ngIf="!!covidGlobalCounts" style="font-size: 44px;"><span style="font-size: 20px;">as of {{covidGlobalCounts.lastRefreshedDate | date: 'mediumDate'}}</span> Worldwide</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span style="color: #ECF0F6;" aria-hidden="true">&times;</span>
         </button>
