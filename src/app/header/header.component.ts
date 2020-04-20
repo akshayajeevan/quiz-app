@@ -13,10 +13,12 @@ declare var $: any;
 export class HeaderComponent implements OnInit {
 
   title = 'COVID-19 Info';
-  worldEmoji = '&#127757;';
   covidGlobalCounts: any;
 
   @Input() inputSideNav: MatSidenav;
+
+  worldEmoji = '&#127757;';
+  sadFaceEmoji = '&#128543;';
 
   constructor(private homeService: HomeService) {
 

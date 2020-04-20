@@ -14,7 +14,7 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>as of {{selectedCountryLatestData.lastRefreshedDate | date: 'mediumDate'}}, total confirmed cases</p>
-          <h2 class="display-4" style="color: #FB475E;">
+          <h2 class="display-4" style="color: #FB475E;" *ngIf="!!selectedCountryLatestData">
             <app-animate-number [digit]="selectedCountryLatestData.confirmed" [duration]="1000">
             </app-animate-number>
           </h2> last 1 day +{{selectedCountryLatestData.lastDayChange}} cases
@@ -25,7 +25,7 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>total deaths</p>
-          <h2 class="display-4">
+          <h2 class="display-4" *ngIf="!!selectedCountryLatestData">
             <app-animate-number [digit]="selectedCountryLatestData.deaths" [duration]="1000"></app-animate-number>
           </h2>with {{selectedCountryLatestData.deathRate}}% death rate
         </mat-card-content>
@@ -35,7 +35,7 @@
       <mat-card class="data-card">
         <mat-card-content>
           <p>total recovered</p>
-          <h2 class="display-4" style="color: #24BE6C;">
+          <h2 class="display-4" style="color: #24BE6C;" *ngIf="!!selectedCountryLatestData">
             <app-animate-number [digit]="selectedCountryLatestData.recovered" [duration]="1000">
             </app-animate-number>
           </h2> with

@@ -20,7 +20,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // global varibales for data
   allCountryDailyData: any;
   regionalData: any;
-  selectedCountryLatestData: any;
+  selectedCountryLatestData = {
+    confirmed: 0,
+    deaths: 0,
+    recovered: 0,
+    lastRefreshedDate: '',
+    lastDayChange: 0,
+    deathRate: 0,
+    recoveryRate: 0
+  };
   regLastRefreshed: any;
   usefulInfo: any;
 
@@ -85,7 +93,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
         recovered: myCountryData[myCountryData.length - 1].recovered,
         deathRate: 0,
         recoveryRate: 0,
-        lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
+        lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1],
+        lastDayChange: 0
       };
       this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
         type: 'bar',
@@ -186,7 +195,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       recovered: selectedCountryData[selectedCountryData.length - 1].recovered,
       deathRate: 0,
       recoveryRate: 0,
-      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
+      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1],
+      lastDayChange: 0
     };
     const deathRate = (this.selectedCountryLatestData.deaths / this.selectedCountryLatestData.confirmed) * 100;
     this.selectedCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
@@ -295,7 +305,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       recovered: selectedCountryData[selectedCountryData.length - 1].recovered,
       deathRate: 0,
       recoveryRate: 0,
-      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1]
+      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1],
+      lastDayChange: 0
     };
     const deathRate = (this.selectedCountryLatestData.deaths / this.selectedCountryLatestData.confirmed) * 100;
     this.selectedCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
