@@ -171,8 +171,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             ctx.beginPath();
             ctx.moveTo(x, topY);
             ctx.lineTo(x, bottomY);
-            ctx.lineWidth = 1;
-            ctx.strokeStyle = '#0D659D';
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = '#B3B3B3';
             ctx.stroke();
             ctx.restore();
           }
@@ -216,7 +216,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               backgroundColor: '#FB475E',
               borderColor: '#FB475E',
               fill: false,
-              pointRadius: 4
+              pointRadius: 2,
+              borderWidth: 2
             },
             {
               label: 'Recovered',
@@ -224,7 +225,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               backgroundColor: '#24BE6C',
               borderColor: '#24BE6C',
               fill: false,
-              pointRadius: 3
+              pointRadius: 2,
+              borderWidth: 2
             },
             {
               label: 'Deaths',
@@ -232,7 +234,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               backgroundColor: '#05263B',
               borderColor: '#05263B',
               fill: false,
-              pointRadius: 3
+              pointRadius: 2,
+              borderWidth: 2
             }
           ]
         },
@@ -254,7 +257,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               type: 'time',
               distribution: 'linear',
               ticks: {
-                maxTicksLimit: 12
+                maxTicksLimit: 18,
+                fontColor: '#05263B'
               },
               time: {
                 tooltipFormat: 'MMM DD',
@@ -273,12 +277,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               gridLines: {
                 drawOnChartArea: false
               }
-            }],
-            yAxes: [{
-              ticks: {
-                maxTicksLimit: 8
-              }
-          }]
+            }]
           }
         }
       });
@@ -394,7 +393,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 drawOnChartArea: false
               },
               ticks: {
-                autoSkip: false
+                autoSkip: false,
+                fontColor: '#05263B'
               }
             }]
           }
@@ -464,6 +464,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         deaths.push(region.data.deaths);
         this.regLastRefreshed = region.data.date;
       }
+      this.regionalChart.data.datasets[0].barThickness = 8;
+      this.regionalChart.data.datasets[1].barThickness = 8;
+      this.regionalChart.data.datasets[2].barThickness = 8;
     }
 
     this.regionalChart.data.labels = ylabelsForChart;
