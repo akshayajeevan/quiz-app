@@ -216,7 +216,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               backgroundColor: '#FB475E',
               borderColor: '#FB475E',
               fill: false,
-              pointRadius: 2,
+              pointRadius: 1,
               borderWidth: 2
             },
             {
@@ -225,7 +225,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               backgroundColor: '#24BE6C',
               borderColor: '#24BE6C',
               fill: false,
-              pointRadius: 2,
+              pointRadius: 1,
               borderWidth: 2
             },
             {
@@ -234,7 +234,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               backgroundColor: '#05263B',
               borderColor: '#05263B',
               fill: false,
-              pointRadius: 2,
+              pointRadius: 1,
               borderWidth: 2
             }
           ]
