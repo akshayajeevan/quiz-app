@@ -215,27 +215,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
               data: confirmedData,
               backgroundColor: '#FB475E',
               borderColor: '#FB475E',
-              fill: false,
+              fill: 1,
               pointRadius: 1,
-              borderWidth: 2
+              borderWidth: 1
             },
             {
               label: 'Recovered',
               data: recoveredData,
               backgroundColor: '#24BE6C',
               borderColor: '#24BE6C',
-              fill: false,
+              fill: 2,
               pointRadius: 1,
-              borderWidth: 2
+              borderWidth: 1
             },
             {
               label: 'Deaths',
               data: deathData,
               backgroundColor: '#05263B',
               borderColor: '#05263B',
-              fill: false,
+              fill: true,
               pointRadius: 1,
-              borderWidth: 2
+              borderWidth: 1
             }
           ]
         },
