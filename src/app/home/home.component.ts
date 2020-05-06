@@ -216,8 +216,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             {
               label: 'Confirmed',
               data: confirmedData,
-              backgroundColor: '#FB475E',
-              borderColor: '#FB475E',
+              backgroundColor: '#FC6D7F',
+              borderColor: '#FC6D7F',
               fill: 1,
               pointRadius: 1,
               borderWidth: 1
@@ -225,8 +225,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
             {
               label: 'Recovered',
               data: recoveredData,
-              backgroundColor: '#24BE6C',
-              borderColor: '#24BE6C',
+              backgroundColor: '#45D286',
+              borderColor: '#45D286',
               fill: 2,
               pointRadius: 1,
               borderWidth: 1
@@ -357,13 +357,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
           datasets: [{
             label: 'Confirmed',
             data: confirmedCases,
-            backgroundColor: '#FB475E',
+            backgroundColor: '#FC6D7F',
             barThickness: 10
           },
           {
             label: 'Discharged',
             data: discharged,
-            backgroundColor: '#24BE6C',
+            backgroundColor: '#45D286',
             barThickness: 10
           },
           {
