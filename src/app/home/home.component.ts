@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   };
   regLastRefreshed: any;
   usefulInfo: any;
+  minimumCasesiInChart = 100;
 
   callEmoji = '&#128222;';
   infoEmoji = '&#128220;';
@@ -184,10 +185,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const recoveredData = [];
     const xlabelsForChart = [];
     for (const dayData of selectedCountryData) {
-      confirmedData.push(dayData.confirmed);
-      deathData.push(dayData.deaths);
-      recoveredData.push(dayData.recovered);
-      xlabelsForChart.push(dayData.date);
+      if (dayData.confirmed > this.minimumCasesiInChart) {
+        confirmedData.push(dayData.confirmed);
+        deathData.push(dayData.deaths);
+        recoveredData.push(dayData.recovered);
+        xlabelsForChart.push(dayData.date);
+      }
     }
     this.selectedCountryLatestData = {
       confirmed: selectedCountryData[selectedCountryData.length - 1].confirmed,
@@ -293,10 +296,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const recoveredData = [];
     const xlabelsForChart = [];
     for (const dayData of selectedCountryData) {
-      confirmedData.push(dayData.confirmed);
-      deathData.push(dayData.deaths);
-      recoveredData.push(dayData.recovered);
-      xlabelsForChart.push(dayData.date);
+      if (dayData.confirmed > this.minimumCasesiInChart) {
+        confirmedData.push(dayData.confirmed);
+        deathData.push(dayData.deaths);
+        recoveredData.push(dayData.recovered);
+        xlabelsForChart.push(dayData.date);
+      }
     }
     this.selectedCountryLatestData = {
       confirmed: selectedCountryData[selectedCountryData.length - 1].confirmed,

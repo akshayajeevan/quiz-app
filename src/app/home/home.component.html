@@ -49,8 +49,10 @@
       <mat-card class="data-card chart-card">
         <mat-card-header>
           <mat-card-title>Daily cases in {{selectedCountry}}</mat-card-title>
-          <mat-card-subtitle><em><small>Last Updated on
-                {{selectedCountryLatestData.lastRefreshedDate | date: 'long'}}</small></em></mat-card-subtitle>
+          <mat-card-subtitle>
+            <em><small>From {{minimumCasesiInChart}} confirmed cases. Last Updated:
+                {{selectedCountryLatestData.lastRefreshedDate | date: 'long'}}</small></em>
+          </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
           <canvas #dailycanvas id="canvas" role="img">Your browser does not support.</canvas>
@@ -61,7 +63,7 @@
       <mat-card class="data-card chart-card">
         <mat-card-header>
           <mat-card-title>Total Cases in States of {{selectedCountry}}</mat-card-title>
-          <mat-card-subtitle><em><small>Last Updated on {{regLastRefreshed | date: 'long'}}</small></em>
+          <mat-card-subtitle><em><small>Last Updated: {{regLastRefreshed | date: 'long'}}</small></em>
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
