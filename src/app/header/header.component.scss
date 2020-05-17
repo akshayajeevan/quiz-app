@@ -39,3 +39,23 @@
 #globalcount-modal {
   background-color: rgba($color: #05263B, $alpha: 0.7)
 }
+
+tr:hover {
+  background-color: #ECF0F6;
+  color: #05263B;
+  font-weight: bold;
+  #conf {
+    color: #FC6D7F
+  }
+  #rec {
+    color: #45D286
+  }
+}
+
+thead tr th {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: #ECF0F6;
+  color: #05263B;
+}

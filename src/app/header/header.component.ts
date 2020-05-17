@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
 
   title = 'COVID-19 Info';
   covidGlobalCounts: any;
+  covidCountryCount: {country: string, confirmed: number, deaths: number, recovered: number}[] = [];
 
   @Input() inputSideNav: MatSidenav;
 
@@ -46,7 +47,17 @@ export class HeaderComponent implements OnInit {
       globalCounts.globalDeaths += singleCountryData[singleCountryData.length - 1].deaths;
       globalCounts.globalRecovered += singleCountryData[singleCountryData.length - 1].recovered;
       globalCounts.lastRefreshedDate = singleCountryData[singleCountryData.length - 1].date;
+      const countryData = {
+        country,
+        confirmed: singleCountryData[singleCountryData.length - 1].confirmed,
+        deaths: singleCountryData[singleCountryData.length - 1].deaths,
+        recovered: singleCountryData[singleCountryData.length - 1].recovered
+      };
+      this.covidCountryCount.push(countryData);
     });
     this.covidGlobalCounts = globalCounts;
+    this.covidCountryCount = this.covidCountryCount.sort((a, b) => {
+      return (b.confirmed - a.confirmed);
+    });
   }
 }

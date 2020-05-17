@@ -23,48 +23,73 @@
   </button>
 </mat-menu> -->
 <!-- World count modal-->
-<div class="modal fade" id="globalcount-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="globalcount-modal" tabindex="-1" role="dialog" aria-labelledby="modalTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
     <div class="modal-content modal-bg">
       <div class="modal-header">
-        <h5 class="display-4" id="modalTitle" *ngIf="!!covidGlobalCounts" style="font-size: 44px;"><span style="font-size: 20px;">as of {{covidGlobalCounts.lastRefreshedDate | date: 'mediumDate'}}</span> Worldwide</h5>
+        <h5 class="display-4" id="modalTitle" *ngIf="!!covidGlobalCounts" style="font-size: 44px;"><span
+            style="font-size: 20px;">as of {{covidGlobalCounts.lastRefreshedDate | date: 'mediumDate'}}</span> Worldwide
+        </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span style="color: #ECF0F6;" aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <div class="row" *ngIf="!!covidGlobalCounts">
-          <div class="col pt-2">
-            <mat-card class="data-card">
-              <mat-card-content>
-                <p>total confirmed cases</p>
-                <h2 class="display-4" style="color: #FC6D7F;">
-                  {{covidGlobalCounts.globalConfirmed | number}}
-                </h2>
-              </mat-card-content>
-            </mat-card>
-          </div>
-          <div class="col pt-2">
-            <mat-card class="data-card">
-              <mat-card-content>
-                <p>total deaths</p>
-                <h2 class="display-4">
-                  {{covidGlobalCounts.globalDeaths | number}}
-                </h2>
-              </mat-card-content>
-            </mat-card>
-          </div>
-          <div class="col pt-2">
-            <mat-card class="data-card">
-              <mat-card-content>
-                <p>total recovered</p>
-                <h2 class="display-4" style="color: #45D286;">
-                  {{covidGlobalCounts.globalRecovered | number}}
-                </h2>
-              </mat-card-content>
-            </mat-card>
+        <div class="container-fluid">
+          <div class="row pb-3" *ngIf="!!covidGlobalCounts">
+            <div class="col-4 col-sm-4 px-0">
+              <mat-card class="data-card">
+                <mat-card-content>
+                  <p>total confirmed</p>
+                  <p style="color: #FC6D7F;">
+                    <strong>{{covidGlobalCounts.globalConfirmed | number}}</strong>
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-4 col-sm-4 px-1">
+              <mat-card class="data-card">
+                <mat-card-content>
+                  <p>total deaths</p>
+                  <p>
+                    <strong>{{covidGlobalCounts.globalDeaths | number}}</strong>
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
+            <div class="col-4 col-sm-4 px-0">
+              <mat-card class="data-card">
+                <mat-card-content>
+                  <p>total recovered</p>
+                  <p style="color: #45D286;">
+                  <strong>{{covidGlobalCounts.globalRecovered | number}}</strong>
+                  </p>
+                </mat-card-content>
+              </mat-card>
+            </div>
           </div>
         </div>
+          <table class="table modal-bg">
+            <thead>
+              <tr>
+                <th scope="col" class="px-1">#</th>
+                <th scope="col" class="px-1">Country/Region</th>
+                <th scope="col" id="conf" class="px-1">Confirmed</th>
+                <th scope="col" class="px-1">Deaths</th>
+                <th scope="col" id="rec" class="px-1">Recovered</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let covidCountry of covidCountryCount, index as i">
+                <th scope="row" class="px-1">{{i + 1}}</th>
+                <td class="px-1">{{covidCountry.country}}</td>
+                <td id="conf" class="px-1">{{covidCountry.confirmed | number}}</td>
+                <td class="px-1">{{covidCountry.deaths | number}}</td>
+                <td id="rec" class="px-1">{{covidCountry.recovered | number}}</td>
+              </tr>
+            </tbody>
+          </table>
       </div>
     </div>
   </div>
