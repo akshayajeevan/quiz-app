@@ -25,6 +25,7 @@ import { DataService } from './shared/data.service';
 import { HomeService } from './home/home.service';
 
 import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
+import { CountryFilterPipe } from './shared/pipes/country-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
     QuizComponent,
     SourcesComponent,
     AnimateNumerComponent,
-    TweetSheetComponent
+    TweetSheetComponent,
+    CountryFilterPipe
   ],
   imports: [
     BrowserModule,

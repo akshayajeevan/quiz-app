@@ -70,26 +70,27 @@
             </div>
           </div>
         </div>
-          <table class="table modal-bg">
-            <thead>
-              <tr>
-                <th scope="col" class="px-1">#</th>
-                <th scope="col" class="px-1">Country/Region</th>
-                <th scope="col" id="conf" class="px-1">Confirmed</th>
-                <th scope="col" class="px-1">Deaths</th>
-                <th scope="col" id="rec" class="px-1">Recovered</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let covidCountry of covidCountryCount, index as i">
-                <th scope="row" class="px-1">{{i + 1}}</th>
-                <td class="px-1">{{covidCountry.country}}</td>
-                <td id="conf" class="px-1">{{covidCountry.confirmed | number}}</td>
-                <td class="px-1">{{covidCountry.deaths | number}}</td>
-                <td id="rec" class="px-1">{{covidCountry.recovered | number}}</td>
-              </tr>
-            </tbody>
-          </table>
+        <input type="text" id="searchCountry" [(ngModel)]="searchCountry" placeholder="Search">
+        <table class="table modal-bg">
+          <thead>
+            <tr>
+              <th scope="col" class="px-1">#</th>
+              <th scope="col" class="px-1">Country/Region</th>
+              <th scope="col" id="conf" class="px-1">Confirmed</th>
+              <th scope="col" class="px-1">Deaths</th>
+              <th scope="col" id="rec" class="px-1">Recovered</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let covidCountry of covidCountryCount | countryfilter : searchCountry, index as i">
+              <th scope="row" class="px-1">{{i + 1}}</th>
+              <td class="px-1">{{covidCountry.country}}</td>
+              <td id="conf" class="px-1">{{covidCountry.confirmed | number}}</td>
+              <td class="px-1">{{covidCountry.deaths | number}}</td>
+              <td id="rec" class="px-1">{{covidCountry.recovered | number}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

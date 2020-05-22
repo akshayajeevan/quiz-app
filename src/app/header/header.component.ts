@@ -13,6 +13,7 @@ declare var $: any;
 export class HeaderComponent implements OnInit {
 
   title = 'COVID-19 Info';
+  searchCountry = '';
   covidGlobalCounts: any;
   covidCountryCount: {country: string, confirmed: number, deaths: number, recovered: number}[] = [];
 
