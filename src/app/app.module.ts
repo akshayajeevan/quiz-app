@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { MatBottomSheet, MatBottomSheetContainer } from '@angular/material/bottom-sheet';
+import { GoogleChartsModule } from 'angular-google-charts';
 // Components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -48,7 +49,8 @@ import { CountryFilterPipe } from './shared/pipes/country-filter.pipe';
     CustomMaterialModule,
     FormsModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    GoogleChartsModule.forRoot({ mapsApiKey: 'AIzaSyBM__ubDWijbsndYmZVdKnPMdddtXpBWSI' }),
   ],
   providers: [
     MatBottomSheet,

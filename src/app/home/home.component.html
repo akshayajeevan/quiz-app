@@ -105,9 +105,9 @@
     </div>
   </mat-expansion-panel>
   <div class="pt-2">
-    <div *ngIf="selectedCountry == 'India'"><rssapp-wall id="Fa3OhyuFdEPWAsUX"></rssapp-wall></div>
-    <div *ngIf="selectedCountry == 'Germany'"><rssapp-wall id="gtNQGZfpSkIKduxe"></rssapp-wall></div>
-    <div *ngIf="selectedCountry == 'USA'"><rssapp-wall id="LslJZYykdypOfPct"></rssapp-wall></div>
+    <div *ngIf="selectedCountry == 'India'"><rssapp-wall id="0FIuZiEGTinmTShJ"></rssapp-wall></div>
+    <div *ngIf="selectedCountry == 'Germany'"><rssapp-wall id="ubIYumvcRAIkIcVg"></rssapp-wall></div>
+    <div *ngIf="selectedCountry == 'USA'"><rssapp-wall id="FYjbgcQrZMUoX5Nw"></rssapp-wall></div>
   </div>
   <div class="text-center pt-3">
     <p class="mb-0"><small>Daily data retrieved from <a target="_blank"
@@ -115,4 +115,22 @@
     <p><small>developer details <a routerLink="/sources">here</a></small></p>
     <p class="mb-1"><small>Stay Home Stay Safe</small></p>
   </div>
+  <div class="modal fade" id="statemap-modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="display-4" id="modalTitle" style="font-size: 44px;">States of {{selectedCountry}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>This is the modal body</p>
+          <!-- <google-chart [type]="gChartTypeState" [data]="gChartStateData" [options]="gChartStateOptions" [width]="300" [height]="300"></google-chart> -->
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+

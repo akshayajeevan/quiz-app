@@ -5,6 +5,7 @@ import covidCountryInfo from '../shared/covid-19-data.json';
 import Chart from 'chart.js';
 import { TweetSheetComponent } from '../tweet-sheet/tweet-sheet.component';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
+import { ChartType } from 'angular-google-charts';
 
 @Component({
   selector: 'app-home',
@@ -35,6 +36,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   callEmoji = '&#128222;';
   infoEmoji = '&#128220;';
+  // Google chart variables
+  gChartTypeState = ChartType.GeoChart;
+  gChartStateData: any;
+  gChartStateOptions: any;
 
   // canvas elements
   @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
@@ -57,6 +62,31 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.regionalData = response;
       this.showRegionalChart(); // comment
     });
+
+    this.gChartStateData = [
+      ['State', 'Popularity'],
+      ['Andhra Pradesh', 200],
+      ['Arunachal Pradesh', 130],
+      ['Assam', 100],
+      ['Bihar', 180],
+      ['Chhattisgarh', 100],
+      ['Goa', 250],
+      ['Gujarat', 100],
+      ['Haryana', 100],
+      ['Himachal Pradesh', 90],
+      ['Jharkhand', 70],
+      ['Karnataka', 400],
+      ['Kerala', 500],
+    ];
+    this.gChartStateOptions = {
+      region: 'IN',
+      colorAxis: {colors: ['#00853f', 'black', '#e31b23']},
+      backgroundColor: '#81d4fa',
+      datalessRegionColor: '#f8bbd0',
+      defaultColor: '#f5f5f5',
+      displayMode: 'markers',
+      resolution: 'provinces',
+    };
   }
 
   ngAfterViewInit() {
