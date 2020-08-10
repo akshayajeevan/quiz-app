@@ -372,12 +372,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
       });
       const ylabelsForChart = [];
       const confirmedCases = [];
-      const discharged = [];
+      const recovered = [];
       const deaths = [];
       for (const region of sortedRegionalData) {
         ylabelsForChart.push(region.loc);
         confirmedCases.push(region.totalConfirmed);
-        discharged.push(region.discharged);
+        recovered.push(region.discharged);
         deaths.push(region.deaths);
       }
       this.regionalChart = new Chart(this.regionalCanvas.nativeElement.getContext('2d'), {
@@ -391,7 +391,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             barThickness: 10
           },
           {
-            label: 'Discharged',
+            label: 'Recovered',
             data: discharged,
             backgroundColor: '#45D286',
             barThickness: 10
@@ -436,7 +436,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
       });
     } else {
-
+      // to-do
     }
   }
 
@@ -446,7 +446,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   updateRegionalData() {
     const ylabelsForChart = [];
     const confirmedCases = [];
-    const discharged = [];
+    const recovered = [];
     const deaths = [];
     if (this.selectedCountry === 'India') {
       this.regLastRefreshed = this.regionalData.lastRefreshed;
@@ -459,7 +459,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       for (const region of sortedRegionalData) {
         ylabelsForChart.push(region.loc);
         confirmedCases.push(region.totalConfirmed);
-        discharged.push(region.discharged);
+        recovered.push(region.discharged);
         deaths.push(region.deaths);
       }
     }
@@ -472,12 +472,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
       for (const region of sortedRegionalData) {
         ylabelsForChart.push(region.attributes.LAN_ew_GEN);
         confirmedCases.push(region.attributes.Fallzahl);
-        // discharged.push('NA');
+        // recovered.push('NA');
         deaths.push(region.attributes.Death);
         this.regLastRefreshed = region.attributes.Aktualisierung;
       }
     }
-
     if (this.selectedCountry === 'USA') {
       const states = Object.keys(this.regionalData);
       const regData = [];
@@ -506,7 +505,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.regionalChart.data.labels = ylabelsForChart;
     this.regionalChart.data.datasets[0].data = confirmedCases;
-    this.regionalChart.data.datasets[1].data = discharged;
+    this.regionalChart.data.datasets[1].data = recovered;
     this.regionalChart.data.datasets[2].data = deaths;
     this.regionalChart.update();
   }
