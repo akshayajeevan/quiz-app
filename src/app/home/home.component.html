@@ -55,7 +55,7 @@
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <canvas #dailycanvas id="canvas" role="img">Your browser does not support.</canvas>
+          <canvas #dailycanvas id="daily-canvas" role="img" class="chart-canvas">Your browser does not support.</canvas>
         </mat-card-content>
       </mat-card>
     </div>
@@ -67,7 +67,7 @@
           </mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-          <canvas #regionalcanvas id="canvas" role="img">Your browser does not support.</canvas>
+          <canvas #regionalcanvas id="reg-canvas" role="img" class="chart-canvas">Your browser does not support.</canvas>
         </mat-card-content>
       </mat-card>
     </div>
@@ -89,7 +89,7 @@
         <mat-card class="data-card">
           <mat-card-content>
             <p>Check &nbsp;<mat-icon svgIcon="tweet" (click)="openTweetSheet()" style="cursor: pointer;"></mat-icon></p>
-            <p class="h3"><a style="color: #05263B;" target="_blank" href="{{usefulInfo.info.moh}}">Ministry of Health ({{selectedCountry}})</a></p>
+            <p class="h3"><a style="color: #05263B;" rel="noopener" target="_blank" href="{{usefulInfo.info.moh}}">Ministry of Health ({{selectedCountry}})</a></p>
           </mat-card-content>
         </mat-card>
       </div>
@@ -97,7 +97,7 @@
         <mat-card class="data-card">
           <mat-card-content>
             <p>More Info &nbsp;<span [innerHTML]="infoEmoji"></span></p>
-            <p class="h3" *ngFor="let web of usefulInfo.info.websites"><a style="color: #05263B;" target="_blank" href="{{web.site}}">{{web.name}}</a>
+            <p class="h3" *ngFor="let web of usefulInfo.info.websites"><a style="color: #05263B;" rel="noopener" target="_blank" href="{{web.site}}">{{web.name}}</a>
             </p>
           </mat-card-content>
         </mat-card>
@@ -110,7 +110,7 @@
     <div *ngIf="selectedCountry == 'USA'"><rssapp-wall id="FYjbgcQrZMUoX5Nw"></rssapp-wall></div>
   </div> -->
   <div class="text-center pt-3">
-    <p class="mb-0"><small>Daily data retrieved from <a target="_blank"
+    <p class="mb-0"><small>Daily data retrieved from <a rel="noopener" target="_blank"
           href="https://github.com/CSSEGISandData/COVID-19">Johns Hopkins</a> and State data retrieved from official sources</small></p>
     <p><small>developer details <a routerLink="/sources">here</a></small></p>
     <p class="mb-1"><small>Stay Home Stay Safe</small></p>

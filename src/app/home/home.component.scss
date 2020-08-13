@@ -1,5 +1,5 @@
 
-#canvas {
+.chart-canvas {
   min-height: 600px;
 }
 .data-card {
@@ -10,11 +10,11 @@
 }
 
 @media (max-width: 480px) {
-  #canvas {
+  .chart-canvas {
     width: 500px !important;
     min-height: 600px !important;
   }
-  .chart-card, #canvas {
+  .chart-card, .chart-canvas {
     overflow-x: auto;
     white-space: nowrap;
     -webkit-overflow-scrolling: touch;

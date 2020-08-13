@@ -76,18 +76,18 @@
             <tr>
               <th scope="col" class="px-1">#</th>
               <th scope="col" class="px-1">Country/Region</th>
-              <th scope="col" id="conf" class="px-1">Confirmed</th>
+              <th scope="col" class="conf px-1">Confirmed</th>
               <th scope="col" class="px-1">Deaths</th>
-              <th scope="col" id="rec" class="px-1">Recovered</th>
+              <th scope="col" class="rec px-1">Recovered</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let covidCountry of covidCountryCount | countryfilter : searchCountry, index as i">
               <th scope="row" class="px-1">{{i + 1}}</th>
               <td class="px-1">{{covidCountry.country}}</td>
-              <td id="conf" class="px-1">{{covidCountry.confirmed | number}}</td>
+              <td class="conf px-1">{{covidCountry.confirmed | number}}</td>
               <td class="px-1">{{covidCountry.deaths | number}}</td>
-              <td id="rec" class="px-1">{{covidCountry.recovered | number}}</td>
+              <td class="rec px-1">{{covidCountry.recovered | number}}</td>
             </tr>
           </tbody>
         </table>
@@ -103,7 +103,7 @@
         <h4 class="display-4">Oh no! Something wrong here</h4>
       </div>
       <div class="modal-body">
-        <p class="lead"><strong>Not able to access <a target="_blank" href="https://github.com/">GitHub</a>. Please open this app on some other device or use your smartphone.</strong></p>
+        <p class="lead"><strong>Not able to access <a target="_blank" rel="noopener" href="https://github.com/">GitHub</a>. Please open this app on some other device or use your smartphone.</strong></p>
       </div>
     </div>
   </div>
