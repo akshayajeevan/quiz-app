@@ -15,6 +15,7 @@ export class DataService {
   }
 
   getIPDetails() {
+    // free plan of ip-api has no ssl
     return this.http.get('http://ip-api.com/json/');
   }
 
