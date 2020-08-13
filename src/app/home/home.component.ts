@@ -392,7 +392,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           },
           {
             label: 'Recovered',
-            data: discharged,
+            data: recovered,
             backgroundColor: '#45D286',
             barThickness: 10
           },

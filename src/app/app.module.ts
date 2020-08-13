@@ -27,6 +27,8 @@ import { HomeService } from './home/home.service';
 
 import { CustomHttpInterceptor } from './shared/custom-http.interceptor';
 import { CountryFilterPipe } from './shared/pipes/country-filter.pipe';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -50,7 +52,8 @@ import { CountryFilterPipe } from './shared/pipes/country-filter.pipe';
     FormsModule,
     NgbModule,
     HttpClientModule,
-    GoogleChartsModule.forRoot({ mapsApiKey: 'AIzaSyBM__ubDWijbsndYmZVdKnPMdddtXpBWSI' }),
+    GoogleChartsModule.forRoot({ mapsApiKey: '' }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     MatBottomSheet,
