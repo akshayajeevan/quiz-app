@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
   @ViewChild('regionalcanvas', { static: true }) regionalCanvas: ElementRef;
 
-  localeToUse = this.localeToUse;
+  localeToUse = 'en-US';
 
   constructor(private homeService: HomeService, private decimalPipe: DecimalPipe, private bottomSheet: MatBottomSheet) {
 
