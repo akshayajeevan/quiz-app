@@ -45,6 +45,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
   @ViewChild('regionalcanvas', { static: true }) regionalCanvas: ElementRef;
 
+  localeToUse = this.localeToUse;
+
   constructor(private homeService: HomeService, private decimalPipe: DecimalPipe, private bottomSheet: MatBottomSheet) {
 
   }
@@ -187,6 +189,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
    * Show Daily cases in line chart
    */
   showDailyChartLine() {
+    // below code to show vertical line on mouse hover
     Chart.defaults.LineWithLine = Chart.defaults.line;
     Chart.controllers.LineWithLine = Chart.controllers.line.extend({
       // tslint:disable-next-line: object-literal-shorthand
@@ -281,7 +284,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
           legend: { display: false },
           tooltips: {
             mode: 'label',  // or 'x-axis',
-            intersect: false
+            intersect: false,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += tooltipItem.yLabel.toLocaleString(this.localeToUse);
+                return label;
+              }
+            }
           },
           elements: {
             line: {
@@ -295,7 +308,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               ticks: {
                 maxTicksLimit: 18,
                 fontColor: '#05263B',
-                fontSize: 9
+                fontSize: screen.width < 800 ? 9 : 10
               },
               time: {
                 tooltipFormat: 'MMM DD',
@@ -318,6 +331,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
                 display: true,
                 labelString: `From the day recorded ${this.minimumCasesiInChart} confirmed cases`,
                 fontStyle: 'italic'
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                callback: (value, index, values) => {
+                  return value.toLocaleString(this.localeToUse);
+                }
               }
             }]
           }
@@ -430,7 +450,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
           maintainAspectRatio: false,
           legend: { display: false },
           tooltips: {
-            intersect: false
+            intersect: false,
+            callbacks: {
+              label: (tooltipItem, data) => {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += tooltipItem.xLabel.toLocaleString(this.localeToUse);
+                return label;
+              }
+            }
           },
           scales: {
             xAxes: [{
@@ -454,7 +484,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               ticks: {
                 autoSkip: false,
                 fontColor: '#05263B',
-                fontSize: 9
+                fontSize: screen.width < 800 ? 9 : 10
               }
             }]
           }

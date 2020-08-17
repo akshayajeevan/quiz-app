@@ -6,6 +6,7 @@ import { Component, ElementRef, Input, AfterViewInit, ViewChild, OnChanges, Simp
 })
 export class AnimateNumerComponent implements AfterViewInit, OnChanges {
 
+  @Input() localeToUse: number;
   @Input() duration: number;
   @Input() digit: number;
   @Input() steps: number;
@@ -30,11 +31,11 @@ export class AnimateNumerComponent implements AfterViewInit, OnChanges {
     }
 
     if (typeof this.digit === 'number') {
-      this.counterFunc(this.digit, this.duration, this.animateNumber);
+      this.counterFunc(this.digit, this.duration, this.animateNumber, this.localeToUse);
     }
   }
 
-  counterFunc(endValue: number, durationMs: number, element: ElementRef<any>) {
+  counterFunc(endValue: number, durationMs: number, element: ElementRef<any>, locale: string) {
     if (!this.steps) {
       this.steps = 12;
     }
@@ -43,12 +44,13 @@ export class AnimateNumerComponent implements AfterViewInit, OnChanges {
 
     let currentValue = 0;
     function step() {
-      element.nativeElement.textContent = Math.abs(Math.floor(currentValue));
+      const numberToShow = Math.abs(Math.floor(currentValue));
+      element.nativeElement.textContent = numberToShow.toLocaleString(locale);
       currentValue += valueIncrement * Math.abs(Math.sin(6) * 2 * 2);
       if (currentValue < endValue) {
         window.requestAnimationFrame(step);
       } else {
-        element.nativeElement.textContent = endValue;
+        element.nativeElement.textContent = endValue.toLocaleString(locale);
       }
     }
 
