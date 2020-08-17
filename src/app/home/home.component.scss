@@ -1,6 +1,6 @@
 
 .chart-canvas {
-  min-height: 600px;
+  min-height: 450px;
 }
 .data-card {
   width: 100%;
@@ -11,8 +11,8 @@
 
 @media (max-width: 480px) {
   .chart-canvas {
-    width: 500px !important;
-    min-height: 600px !important;
+    width: 400 !important;
+    min-height: 450px !important;
   }
   .chart-card, .chart-canvas {
     overflow-x: auto;

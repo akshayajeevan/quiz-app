@@ -50,6 +50,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    // tslint:disable-next-line: quotemark
+    Chart.defaults.global.defaultFontFamily = "'Open Sans', sans-serif";
+    // Chart.defaults.global.defaultFontSize = 8;
     this.usefulInfo = covidCountryInfo[this.selectedCountry];
     this.homeService.getDailyData().subscribe(response => {
       // response['US'].forEach(({ date, confirmed, recovered, deaths }) =>
@@ -291,7 +294,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               distribution: 'linear',
               ticks: {
                 maxTicksLimit: 18,
-                fontColor: '#05263B'
+                fontColor: '#05263B',
+                fontSize: 9
               },
               time: {
                 tooltipFormat: 'MMM DD',
@@ -309,6 +313,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
               },
               gridLines: {
                 drawOnChartArea: false
+              },
+              scaleLabel: {
+                display: true,
+                labelString: `From the day recorded ${this.minimumCasesiInChart} confirmed cases`,
+                fontStyle: 'italic'
               }
             }]
           }
@@ -375,7 +384,20 @@ export class HomeComponent implements OnInit, AfterViewInit {
       const recovered = [];
       const deaths = [];
       for (const region of sortedRegionalData) {
-        ylabelsForChart.push(region.loc);
+        // break large state names
+        if (region.loc.indexOf('Dadra') !== -1) {
+          const idx = region.loc.indexOf('and Daman');
+          const str1 = region.loc.substr(0, idx);
+          const str2 = region.loc.substr(idx);
+          ylabelsForChart.push([str1, str2]);
+        } else if (region.loc.indexOf('Andaman') !== -1) {
+          const idx = region.loc.indexOf('Nicobar');
+          const str1 = region.loc.substr(0, idx);
+          const str2 = region.loc.substr(idx);
+          ylabelsForChart.push([str1, str2]);
+        } else {
+          ylabelsForChart.push(region.loc);
+        }
         confirmedCases.push(region.totalConfirmed);
         recovered.push(region.discharged);
         deaths.push(region.deaths);
@@ -412,11 +434,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
           },
           scales: {
             xAxes: [{
+              display: false,  // x-axis is hidden
               stacked: true,
               gridLines: {
                 drawOnChartArea: false
               },
               ticks: {
+                display: false,
                 maxTicksLimit: 8
               }
             }],
@@ -429,7 +453,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
               },
               ticks: {
                 autoSkip: false,
-                fontColor: '#05263B'
+                fontColor: '#05263B',
+                fontSize: 9
               }
             }]
           }
@@ -457,11 +482,27 @@ export class HomeComponent implements OnInit, AfterViewInit {
         return (bTotal - aTotal);
       });
       for (const region of sortedRegionalData) {
-        ylabelsForChart.push(region.loc);
+        // break large state names
+        if (region.loc.indexOf('Dadra') !== -1) {
+          const idx = region.loc.indexOf('and Daman');
+          const str1 = region.loc.substr(0, idx);
+          const str2 = region.loc.substr(idx);
+          ylabelsForChart.push([str1, str2]);
+        } else if (region.loc.indexOf('Andaman') !== -1) {
+          const idx = region.loc.indexOf('Nicobar');
+          const str1 = region.loc.substr(0, idx);
+          const str2 = region.loc.substr(idx);
+          ylabelsForChart.push([str1, str2]);
+        } else {
+          ylabelsForChart.push(region.loc);
+        }
         confirmedCases.push(region.totalConfirmed);
         recovered.push(region.discharged);
         deaths.push(region.deaths);
       }
+      this.regionalChart.data.datasets[0].barThickness = 10;
+      this.regionalChart.data.datasets[1].barThickness = 10;
+      this.regionalChart.data.datasets[2].barThickness = 10;
     }
     if (this.selectedCountry === 'Germany') {
       const sortedRegionalData = this.regionalData.features.sort((a, b) => {
@@ -476,6 +517,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         deaths.push(region.attributes.Death);
         this.regLastRefreshed = region.attributes.Aktualisierung;
       }
+      this.regionalChart.data.datasets[0].barThickness = 10;
+      this.regionalChart.data.datasets[1].barThickness = 10;
+      this.regionalChart.data.datasets[2].barThickness = 10;
     }
     if (this.selectedCountry === 'USA') {
       const states = Object.keys(this.regionalData);
