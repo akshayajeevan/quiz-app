@@ -6,7 +6,7 @@ import { Component, ElementRef, Input, AfterViewInit, ViewChild, OnChanges, Simp
 })
 export class AnimateNumerComponent implements AfterViewInit, OnChanges {
 
-  @Input() localeToUse: number;
+  @Input() localeToUse: string;
   @Input() duration: number;
   @Input() digit: number;
   @Input() steps: number;
