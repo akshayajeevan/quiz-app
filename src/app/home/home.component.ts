@@ -547,9 +547,9 @@ export class HomeComponent implements OnInit, AfterViewInit {
         deaths.push(region.attributes.Death);
         this.regLastRefreshed = region.attributes.Aktualisierung;
       }
-      this.regionalChart.data.datasets[0].barThickness = 10;
-      this.regionalChart.data.datasets[1].barThickness = 10;
-      this.regionalChart.data.datasets[2].barThickness = 10;
+      this.regionalChart.data.datasets[0].barThickness = 12;
+      this.regionalChart.data.datasets[1].barThickness = 12;
+      this.regionalChart.data.datasets[2].barThickness = 12;
     }
     if (this.selectedCountry === 'USA') {
       const states = Object.keys(this.regionalData);
