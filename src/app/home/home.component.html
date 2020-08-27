@@ -17,7 +17,7 @@
           <h2 class="case-no display-4" style="color: #FC6D7F;" *ngIf="!!selectedCountryLatestData">
             <app-animate-number [digit]="selectedCountryLatestData.confirmed" [duration]="1000" [format]="localeToUse">
             </app-animate-number>
-          </h2> last 1 day +{{selectedCountryLatestData.lastDayChange}} cases
+          </h2> last 1 day +{{selectedCountryLatestData.lastDayChange | number}} cases
         </mat-card-content>
       </mat-card>
     </div>
