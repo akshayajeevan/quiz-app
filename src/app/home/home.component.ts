@@ -15,6 +15,8 @@ import { ChartType } from 'angular-google-charts';
 export class HomeComponent implements OnInit, AfterViewInit {
   // default country selector
   selectedCountry = 'India';
+  // default toggle switch
+  perDaySelected = false;
   // chart variables
   dailyChart: any;
   regionalChart: any;
@@ -43,6 +45,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // canvas elements
   @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
+  // @ViewChild('perDaycanvas', { static: true }) perDaycanvas: ElementRef;
   @ViewChild('regionalcanvas', { static: true }) regionalCanvas: ElementRef;
 
   localeToUse = 'en-US';
@@ -61,7 +64,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       //   console.log(`${date} confirmed cases: ${confirmed} recovered: ${recovered} deaths: ${deaths}`)
       // );
       this.allCountryDailyData = response;
-      this.showDailyChartLine();
+      this.showDailyChart();
     });
     this.homeService.getRegionalData(this.selectedCountry).subscribe(response => {
       this.regionalData = response;
@@ -85,7 +88,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     ];
     this.gChartStateOptions = {
       region: 'IN',
-      colorAxis: {colors: ['#00853f', 'black', '#e31b23']},
+      colorAxis: { colors: ['#00853f', 'black', '#e31b23'] },
       backgroundColor: '#81d4fa',
       datalessRegionColor: '#f8bbd0',
       defaultColor: '#f5f5f5',
@@ -102,253 +105,50 @@ export class HomeComponent implements OnInit, AfterViewInit {
   countryChange() {
     console.log('Selected Country=' + this.selectedCountry);
     this.usefulInfo = covidCountryInfo[this.selectedCountry];
-    this.updateDailyChartLine();
+    this.perDaySelected ? this.showPerDayChart() : this.showDailyChart();
+    // this.updateDailyChart();
     this.homeService.getRegionalData(this.selectedCountry).subscribe(response => {
       this.regionalData = response;
       this.updateRegionalData();
     });
   }
 
-  /**
-   * @deprecated for now
-   */
-  showDailyChart() {
-    this.homeService.getDailyData().subscribe(response => {
-      const myCountryData = response[this.selectedCountry];
-      const confirmedData = [];
-      const deathData = [];
-      const xlabelsForChart = [];
-      for (const dayData of myCountryData) {
-        confirmedData.push({x: dayData.date, y: dayData.confirmed});
-        deathData.push({x: dayData.date, y: dayData.deaths});
-        xlabelsForChart.push(dayData.date);
-      }
-      this.selectedCountryLatestData = {
-        confirmed: myCountryData[myCountryData.length - 1].confirmed,
-        deaths: myCountryData[myCountryData.length - 1].deaths,
-        recovered: myCountryData[myCountryData.length - 1].recovered,
-        deathRate: 0,
-        recoveryRate: 0,
-        lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1],
-        lastDayChange: 0
-      };
-      this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: xlabelsForChart,
-          datasets: [{
-            label: 'Confirmed',
-            data: confirmedData,
-            backgroundColor: '#FB475E'
-          },
-          {
-            label: 'Deaths',
-            data: deathData,
-            backgroundColor: '#13293D'
-          }]
-        },
-        options: {
-          legend: { display: false },
-          title: {
-            display: false,
-            text: 'Daily cases for ' + this.selectedCountry
-          },
-          scales: {
-            xAxes: [{
-              stacked: true,
-              type: 'time',
-              distribution: 'linear',
-              time: {
-                tooltipFormat: 'MMM DD',
-                displayFormats: {
-                  millisecond: 'MMM DD',
-                  second: 'MMM DD',
-                  minute: 'MMM DD',
-                  hour: 'MMM DD',
-                  day: 'MMM DD',
-                  week: 'MMM DD',
-                  month: 'MMM DD',
-                  quarter: 'MMM DD',
-                  year: 'MMM DD',
-                }
-              },
-              gridLines: {
-                drawOnChartArea: false
-              }
-            }],
-            yAxes: [{
-              stacked: true
-            }]
-          }
-        }
-      });
-    });
+  toggleChart() {
+    this.perDaySelected ? this.showPerDayChart() : this.showDailyChart();
   }
 
   /**
    * Show Daily cases in line chart
    */
-  showDailyChartLine() {
+  showDailyChart() {
+    // tslint:disable-next-line: no-unused-expression
+    !!this.dailyChart ? this.dailyChart.destroy() : null;
     // below code to show vertical line on mouse hover
     Chart.defaults.LineWithLine = Chart.defaults.line;
     Chart.controllers.LineWithLine = Chart.controllers.line.extend({
       // tslint:disable-next-line: object-literal-shorthand
       draw: function(ease) {
-          Chart.controllers.line.prototype.draw.call(this, ease);
+        Chart.controllers.line.prototype.draw.call(this, ease);
 
-          if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
-            const activePoint = this.chart.tooltip._active[0];
-            const ctx = this.chart.ctx;
-            const x = activePoint.tooltipPosition().x;
-            const topY = this.chart.scales['y-axis-0'].top;
-            const bottomY = this.chart.scales['y-axis-0'].bottom;
+        if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
+          const activePoint = this.chart.tooltip._active[0];
+          const ctx = this.chart.ctx;
+          const x = activePoint.tooltipPosition().x;
+          const topY = this.chart.scales['y-axis-0'].top;
+          const bottomY = this.chart.scales['y-axis-0'].bottom;
 
-            // draw line
-            ctx.save();
-            ctx.beginPath();
-            ctx.moveTo(x, topY);
-            ctx.lineTo(x, bottomY);
-            ctx.lineWidth = 0.5;
-            ctx.strokeStyle = '#B3B3B3';
-            ctx.stroke();
-            ctx.restore();
-          }
+          // draw line
+          ctx.save();
+          ctx.beginPath();
+          ctx.moveTo(x, topY);
+          ctx.lineTo(x, bottomY);
+          ctx.lineWidth = 0.5;
+          ctx.strokeStyle = '#B3B3B3';
+          ctx.stroke();
+          ctx.restore();
+        }
       }
     });
-    const selectedCountryData = this.allCountryDailyData[this.selectedCountry];
-    const confirmedData = [];
-    const deathData = [];
-    const recoveredData = [];
-    const xlabelsForChart = [];
-    for (const dayData of selectedCountryData) {
-      if (dayData.confirmed > this.minimumCasesiInChart) {
-        confirmedData.push(dayData.confirmed);
-        deathData.push(dayData.deaths);
-        recoveredData.push(dayData.recovered);
-        xlabelsForChart.push(dayData.date);
-      }
-    }
-    this.selectedCountryLatestData = {
-      confirmed: selectedCountryData[selectedCountryData.length - 1].confirmed,
-      deaths: selectedCountryData[selectedCountryData.length - 1].deaths,
-      recovered: selectedCountryData[selectedCountryData.length - 1].recovered,
-      deathRate: 0,
-      recoveryRate: 0,
-      lastRefreshedDate: xlabelsForChart[xlabelsForChart.length - 1],
-      lastDayChange: 0
-    };
-    const deathRate = (this.selectedCountryLatestData.deaths / this.selectedCountryLatestData.confirmed) * 100;
-    this.selectedCountryLatestData.deathRate = Number(this.decimalPipe.transform(deathRate, '1.2-2'));
-    const recoveryRate = (this.selectedCountryLatestData.recovered / this.selectedCountryLatestData.confirmed) * 100;
-    this.selectedCountryLatestData.recoveryRate = Number(this.decimalPipe.transform(recoveryRate, '1.2-2'));
-    // tslint:disable-next-line: max-line-length
-    this.selectedCountryLatestData.lastDayChange = selectedCountryData[selectedCountryData.length - 1].confirmed - selectedCountryData[selectedCountryData.length - 2].confirmed;
-
-    this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
-        type: 'LineWithLine',
-        data: {
-          labels: xlabelsForChart,
-          datasets: [
-            {
-              label: 'Confirmed',
-              data: confirmedData,
-              backgroundColor: '#FC6D7F',
-              borderColor: '#FC6D7F',
-              fill: 1,
-              pointRadius: 1,
-              borderWidth: 1
-            },
-            {
-              label: 'Recovered',
-              data: recoveredData,
-              backgroundColor: '#45D286',
-              borderColor: '#45D286',
-              fill: 2,
-              pointRadius: 1,
-              borderWidth: 1
-            },
-            {
-              label: 'Deaths',
-              data: deathData,
-              backgroundColor: '#05263B',
-              borderColor: '#05263B',
-              fill: true,
-              pointRadius: 1,
-              borderWidth: 1
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          legend: { display: false },
-          tooltips: {
-            mode: 'label',  // or 'x-axis',
-            intersect: false,
-            callbacks: {
-              label: (tooltipItem, data) => {
-                let label = data.datasets[tooltipItem.datasetIndex].label || '';
-                if (label) {
-                  label += ': ';
-                }
-                label += tooltipItem.yLabel.toLocaleString(this.localeToUse);
-                return label;
-              }
-            }
-          },
-          elements: {
-            line: {
-                borderJoinStyle: 'round'
-            }
-          },
-          scales: {
-            xAxes: [{
-              type: 'time',
-              distribution: 'linear',
-              ticks: {
-                maxTicksLimit: 18,
-                fontColor: '#05263B',
-                fontSize: screen.width < 800 ? 9 : 10
-              },
-              time: {
-                tooltipFormat: 'MMM DD',
-                displayFormats: {
-                  millisecond: 'MMM DD',
-                  second: 'MMM DD',
-                  minute: 'MMM DD',
-                  hour: 'MMM DD',
-                  day: 'MMM DD',
-                  week: 'MMM DD',
-                  month: 'MMM DD',
-                  quarter: 'MMM DD',
-                  year: 'MMM DD',
-                }
-              },
-              gridLines: {
-                drawOnChartArea: false
-              },
-              scaleLabel: {
-                display: true,
-                labelString: `From the day recorded ${this.minimumCasesiInChart} confirmed cases`,
-                fontStyle: 'italic'
-              }
-            }],
-            yAxes: [{
-              ticks: {
-                callback: (value, index, values) => {
-                  return value.toLocaleString(this.localeToUse);
-                }
-              }
-            }]
-          }
-        }
-      });
-  }
-
-  /**
-   * Update Daily cases chart on country selection
-   */
-  updateDailyChartLine() {
     const selectedCountryData = this.allCountryDailyData[this.selectedCountry === 'USA' ? 'US' : this.selectedCountry];
     const confirmedData = [];
     const deathData = [];
@@ -362,6 +162,140 @@ export class HomeComponent implements OnInit, AfterViewInit {
         xlabelsForChart.push(dayData.date);
       }
     }
+    this.updateTotalCountNos(selectedCountryData, xlabelsForChart);
+
+    this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
+      type: 'LineWithLine',
+      data: {
+        labels: xlabelsForChart,
+        datasets: [
+          {
+            label: 'Confirmed',
+            data: confirmedData,
+            backgroundColor: '#FC6D7F',
+            borderColor: '#FC6D7F',
+            fill: 1,
+            pointRadius: 1,
+            borderWidth: 1
+          },
+          {
+            label: 'Recovered',
+            data: recoveredData,
+            backgroundColor: '#45D286',
+            borderColor: '#45D286',
+            fill: 2,
+            pointRadius: 1,
+            borderWidth: 1
+          },
+          {
+            label: 'Deaths',
+            data: deathData,
+            backgroundColor: '#05263B',
+            borderColor: '#05263B',
+            fill: true,
+            pointRadius: 1,
+            borderWidth: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: { display: false },
+        tooltips: {
+          mode: 'label',  // or 'x-axis',
+          intersect: false,
+          callbacks: {
+            label: (tooltipItem, data) => {
+              let label = data.datasets[tooltipItem.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += tooltipItem.yLabel.toLocaleString(this.localeToUse);
+              return label;
+            }
+          }
+        },
+        elements: {
+          line: {
+            borderJoinStyle: 'round'
+          }
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            distribution: 'linear',
+            ticks: {
+              maxTicksLimit: 18,
+              fontColor: '#05263B',
+              fontSize: screen.width < 800 ? 9 : 10
+            },
+            time: {
+              tooltipFormat: 'MMM DD',
+              displayFormats: {
+                millisecond: 'MMM DD',
+                second: 'MMM DD',
+                minute: 'MMM DD',
+                hour: 'MMM DD',
+                day: 'MMM DD',
+                week: 'MMM DD',
+                month: 'MMM DD',
+                quarter: 'MMM DD',
+                year: 'MMM DD',
+              }
+            },
+            gridLines: {
+              drawOnChartArea: false
+            },
+            scaleLabel: {
+              display: true,
+              labelString: `From the day total ${this.minimumCasesiInChart} confirmed cases recorded`,
+              fontStyle: 'italic'
+            }
+          }],
+          yAxes: [{
+            ticks: {
+              callback: (value, index, values) => {
+                return value.toLocaleString(this.localeToUse);
+              }
+            }
+          }]
+        }
+      }
+    });
+  }
+
+  /**
+   * Update Daily cases chart on country selection
+   */
+  updateDailyChart() {
+    const selectedCountryData = this.allCountryDailyData[this.selectedCountry === 'USA' ? 'US' : this.selectedCountry];
+    const confirmedData = [];
+    const deathData = [];
+    const recoveredData = [];
+    const xlabelsForChart = [];
+    for (const dayData of selectedCountryData) {
+      if (dayData.confirmed > this.minimumCasesiInChart) {
+        confirmedData.push(dayData.confirmed);
+        deathData.push(dayData.deaths);
+        recoveredData.push(dayData.recovered);
+        xlabelsForChart.push(dayData.date);
+      }
+    }
+    this.updateTotalCountNos(selectedCountryData, xlabelsForChart);
+
+    this.dailyChart.data.labels = xlabelsForChart;
+    this.dailyChart.data.datasets[0].data = confirmedData;
+    this.dailyChart.data.datasets[1].data = recoveredData;
+    this.dailyChart.data.datasets[2].data = deathData;
+
+    this.dailyChart.update();
+  }
+
+  /**
+   * Updates the total counts shown on top boxes
+   */
+  private updateTotalCountNos(selectedCountryData: any, xlabelsForChart: any[]) {
     this.selectedCountryLatestData = {
       confirmed: selectedCountryData[selectedCountryData.length - 1].confirmed,
       deaths: selectedCountryData[selectedCountryData.length - 1].deaths,
@@ -377,13 +311,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.selectedCountryLatestData.recoveryRate = Number(this.decimalPipe.transform(recoveryRate, '1.2-2'));
     // tslint:disable-next-line: max-line-length
     this.selectedCountryLatestData.lastDayChange = selectedCountryData[selectedCountryData.length - 1].confirmed - selectedCountryData[selectedCountryData.length - 2].confirmed;
-
-    this.dailyChart.data.labels = xlabelsForChart;
-    this.dailyChart.data.datasets[0].data = confirmedData;
-    this.dailyChart.data.datasets[1].data = recoveredData;
-    this.dailyChart.data.datasets[2].data = deathData;
-
-    this.dailyChart.update();
   }
 
   /**
@@ -411,10 +338,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
           const str2 = region.loc.substr(idx);
           ylabelsForChart.push([str1, str2]);
         } else if (region.loc.indexOf('Andaman') !== -1) {
-          const idx = region.loc.indexOf('Nicobar');
-          const str1 = region.loc.substr(0, idx);
-          const str2 = region.loc.substr(idx);
-          ylabelsForChart.push([str1, str2]);
+          // const idx = region.loc.indexOf('Nicobar');
+          // const str1 = region.loc.substr(0, idx);
+          // const str2 = region.loc.substr(idx);
+          // ylabelsForChart.push([str1, str2]);
+          ylabelsForChart.push('A & N Islands');
         } else {
           ylabelsForChart.push(region.loc);
         }
@@ -484,7 +412,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
               ticks: {
                 autoSkip: false,
                 fontColor: '#05263B',
-                fontSize: screen.width < 800 ? 9 : 10
+                fontSize: screen.width < 800 ? 8 : 9
               }
             }]
           }
@@ -558,7 +486,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (state !== 'lastRefreshed') {
           const stateData = this.regionalData[state];
           const lastData = stateData[stateData.length - 1];
-          regData.push({loc: state, data: lastData});
+          regData.push({ loc: state, data: lastData });
         }
       });
       const sortedRegionalData = regData.sort((a, b) => {
@@ -584,6 +512,112 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.regionalChart.update();
   }
 
+  /**
+   * Toggle between daily and per day chart
+   */
+  showPerDayChart() {
+    const selectedCountryData = this.allCountryDailyData[this.selectedCountry === 'USA' ? 'US' : this.selectedCountry];
+    const confirmedData = [];
+    const deathData = [];
+    const recoveredData = [];
+    const xlabelsForChart = [];
+    for (const [idx, dayData] of selectedCountryData.entries()) {
+      if (dayData.confirmed > this.minimumCasesiInChart) {
+        confirmedData.push(dayData.confirmed - selectedCountryData[idx - 1].confirmed);
+        deathData.push(dayData.deaths - selectedCountryData[idx - 1].deaths);
+        recoveredData.push(dayData.recovered - selectedCountryData[idx - 1].recovered);
+        xlabelsForChart.push(dayData.date);
+      }
+    }
+    this.updateTotalCountNos(selectedCountryData, xlabelsForChart);
+    this.dailyChart.destroy();
+
+    this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: xlabelsForChart,
+        datasets: [{
+          label: 'Confirmed',
+          data: confirmedData,
+          backgroundColor: '#FC6D7F',
+        },
+        {
+          label: 'Recovered',
+          data: recoveredData,
+          backgroundColor: '#45D286',
+        },
+        {
+          label: 'Deaths',
+          data: deathData,
+          backgroundColor: '#05263B',
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: { display: false },
+        tooltips: {
+          intersect: false,
+          mode: 'index',
+          callbacks: {
+            label: (tooltipItem, data) => {
+              let label = data.datasets[tooltipItem.datasetIndex].label || '';
+              if (label) {
+                label += ': ';
+              }
+              label += tooltipItem.yLabel.toLocaleString(this.localeToUse);
+              return label;
+            }
+          }
+        },
+        scales: {
+          xAxes: [{
+            type: 'time',
+            distribution: 'linear',
+            stacked: true,
+            ticks: {
+              fontColor: '#05263B',
+              fontSize: screen.width < 800 ? 9 : 10
+            },
+            time: {
+              tooltipFormat: 'MMM DD',
+              displayFormats: {
+                millisecond: 'MMM DD',
+                second: 'MMM DD',
+                minute: 'MMM DD',
+                hour: 'MMM DD',
+                day: 'MMM DD',
+                week: 'MMM DD',
+                month: 'MMM DD',
+                quarter: 'MMM DD',
+                year: 'MMM DD',
+              }
+            },
+            gridLines: {
+              drawOnChartArea: false
+            },
+            scaleLabel: {
+              display: true,
+              labelString: `From the day total ${this.minimumCasesiInChart} confirmed cases recorded`,
+              fontStyle: 'italic'
+            }
+          }],
+          yAxes: [{
+            stacked: true,
+            ticks: {
+              min: 0,
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+  }
+
+
+  /**
+   * Open bottom sheet on click of twitter icon
+   */
   openTweetSheet() {
     const config: MatBottomSheetConfig = {
       data: this.selectedCountry
