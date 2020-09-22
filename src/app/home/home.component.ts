@@ -342,7 +342,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
           // const str1 = region.loc.substr(0, idx);
           // const str2 = region.loc.substr(idx);
           // ylabelsForChart.push([str1, str2]);
-          ylabelsForChart.push('A & N Islands');
+          ylabelsForChart.push('A & N Islands'); // short name
         } else {
           ylabelsForChart.push(region.loc);
         }
@@ -447,10 +447,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
           const str2 = region.loc.substr(idx);
           ylabelsForChart.push([str1, str2]);
         } else if (region.loc.indexOf('Andaman') !== -1) {
-          const idx = region.loc.indexOf('Nicobar');
-          const str1 = region.loc.substr(0, idx);
-          const str2 = region.loc.substr(idx);
-          ylabelsForChart.push([str1, str2]);
+          // const idx = region.loc.indexOf('Nicobar');
+          // const str1 = region.loc.substr(0, idx);
+          // const str2 = region.loc.substr(idx);
+          // ylabelsForChart.push([str1, str2]);
+          ylabelsForChart.push('A & N Islands'); // short name
         } else {
           ylabelsForChart.push(region.loc);
         }
