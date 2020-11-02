@@ -100,8 +100,65 @@
     </div>
   </div> -->
   <!-- carausal -->
+  <!-- slider cards -->
+  <div class="row mb-2">
+    <!-- Slider main container -->
+    <div class="swiper-container" #swipercontainer>
+      <!-- Additional required wrapper -->
+      <div class="swiper-wrapper">
+        <!-- Slides -->
+        <div class="swiper-slide">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{selectedCountry}}: <span> Total cases</span>
+              </mat-card-title>
+              <mat-card-subtitle>
+                <em><small>Last Update:
+                    {{selectedCountryLatestData.lastRefreshedDate | date: 'MMM d, y, h:mm:ss a z'}}</small></em>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <canvas #dailycanvas id="daily-canvas" role="img" class="chart-canvas">Your browser does not support.</canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="swiper-slide">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{selectedCountry}}: <span> Cases per day</span>
+              </mat-card-title>
+              <mat-card-subtitle>
+                <em><small>Last Update:
+                    {{selectedCountryLatestData.lastRefreshedDate | date: 'MMM d, y, h:mm:ss a z'}}</small></em>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <canvas #perDaycanvas id="daily-canvas" role="img" class="chart-canvas">Your browser does not support.</canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="swiper-slide">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>Total cases in States of {{selectedCountry}}</mat-card-title>
+              <mat-card-subtitle><em><small>Last Update: {{regLastRefreshed | date: 'MMM d, y, h:mm:ss a z'}}</small></em>
+              </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <canvas #regionalcanvas id="reg-canvas" role="img" class="chart-canvas">Your browser does not support.</canvas>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+      <!-- navigation buttons -->
+      <div class="swiper-button-prev" (click)="slidePrev()" *ngIf="!this.swiper.isBeginning"></div>
+      <div class="swiper-button-next" (click)="slideNext()" *ngIf="!this.swiper.isEnd"></div>
+    </div>
 
-  <div class="row mb-2 sroll-row">
+  </div>
+  <!-- slider cards -->
+
+  <!-- <div class="row mb-2 sroll-row">
     <div class="col col-12 col-sm-12 col-md-6">
       <mat-card class="data-card chart-card">
         <mat-card-header>
@@ -128,7 +185,7 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
+  </div> -->
   <mat-expansion-panel expanded hideToggle>
     <mat-expansion-panel-header>
       Useful Informations

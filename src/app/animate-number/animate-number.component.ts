@@ -6,7 +6,7 @@ import { Component, ElementRef, Input, AfterViewInit, ViewChild, OnChanges, Simp
 })
 export class AnimateNumerComponent implements AfterViewInit, OnChanges {
 
-  @Input() localeToUse: string;
+  @Input() format: string;
   @Input() duration: number;
   @Input() digit: number;
   @Input() steps: number;
@@ -31,7 +31,7 @@ export class AnimateNumerComponent implements AfterViewInit, OnChanges {
     }
 
     if (typeof this.digit === 'number') {
-      this.counterFunc(this.digit, this.duration, this.animateNumber, this.localeToUse);
+      this.counterFunc(this.digit, this.duration, this.animateNumber, this.format);
     }
   }
 

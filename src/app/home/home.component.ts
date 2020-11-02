@@ -6,6 +6,9 @@ import Chart from 'chart.js';
 import { TweetSheetComponent } from '../tweet-sheet/tweet-sheet.component';
 import { MatBottomSheet, MatBottomSheetConfig } from '@angular/material/bottom-sheet';
 import { ChartType } from 'angular-google-charts';
+import Swiper, { Navigation, Pagination } from 'swiper';
+
+Swiper.use([Navigation, Pagination]);
 
 @Component({
   selector: 'app-home',
@@ -19,6 +22,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   perDaySelected = false;
   // chart variables
   dailyChart: any;
+  perDayChart: any;
   regionalChart: any;
   // global varibales for data
   allCountryDailyData: any;
@@ -45,10 +49,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   // canvas elements
   @ViewChild('dailycanvas', { static: true }) dailyCanvas: ElementRef;
-  // @ViewChild('perDaycanvas', { static: true }) perDaycanvas: ElementRef;
+  @ViewChild('perDaycanvas', { static: true }) perDaycanvas: ElementRef;
   @ViewChild('regionalcanvas', { static: true }) regionalCanvas: ElementRef;
 
+  @ViewChild('swipercontainer', { static: true }) swipercontainer: ElementRef;
+
   localeToUse = 'en-US';
+  swiper: any;
 
   constructor(private homeService: HomeService, private decimalPipe: DecimalPipe, private bottomSheet: MatBottomSheet) {
 
@@ -65,10 +72,18 @@ export class HomeComponent implements OnInit, AfterViewInit {
       // );
       this.allCountryDailyData = response;
       this.showDailyChart();
+      this.showPerDayChart();
     });
     this.homeService.getRegionalData(this.selectedCountry).subscribe(response => {
       this.regionalData = response;
       this.showRegionalChart(); // comment
+    });
+
+    this.swiper = new Swiper(this.swipercontainer.nativeElement, {
+      // loop: true,
+      navigation: {
+        hideOnClick: true
+      },
     });
 
     this.gChartStateData = [
@@ -105,8 +120,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   countryChange() {
     console.log('Selected Country=' + this.selectedCountry);
     this.usefulInfo = covidCountryInfo[this.selectedCountry];
-    this.perDaySelected ? this.showPerDayChart() : this.showDailyChart();
-    // this.updateDailyChart();
+    this.updateDailyChart();
+    this.updatePerDayChart();
     this.homeService.getRegionalData(this.selectedCountry).subscribe(response => {
       this.regionalData = response;
       this.updateRegionalData();
@@ -514,7 +529,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Toggle between daily and per day chart
+   * Show per day cases chart
    */
   showPerDayChart() {
     const selectedCountryData = this.allCountryDailyData[this.selectedCountry === 'USA' ? 'US' : this.selectedCountry];
@@ -531,9 +546,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       }
     }
     this.updateTotalCountNos(selectedCountryData, xlabelsForChart);
-    this.dailyChart.destroy();
 
-    this.dailyChart = new Chart(this.dailyCanvas.nativeElement.getContext('2d'), {
+    this.perDayChart = new Chart(this.perDaycanvas.nativeElement.getContext('2d'), {
       type: 'bar',
       data: {
         labels: xlabelsForChart,
@@ -615,6 +629,32 @@ export class HomeComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Update per day cases chart
+   */
+  updatePerDayChart() {
+    const selectedCountryData = this.allCountryDailyData[this.selectedCountry === 'USA' ? 'US' : this.selectedCountry];
+    const confirmedData = [];
+    const deathData = [];
+    const recoveredData = [];
+    const xlabelsForChart = [];
+    for (const [idx, dayData] of selectedCountryData.entries()) {
+      if (dayData.confirmed > this.minimumCasesiInChart) {
+        confirmedData.push(dayData.confirmed - selectedCountryData[idx - 1].confirmed);
+        deathData.push(dayData.deaths - selectedCountryData[idx - 1].deaths);
+        recoveredData.push(dayData.recovered - selectedCountryData[idx - 1].recovered);
+        xlabelsForChart.push(dayData.date);
+      }
+    }
+    this.updateTotalCountNos(selectedCountryData, xlabelsForChart);
+
+    this.perDayChart.data.labels = xlabelsForChart;
+    this.perDayChart.data.datasets[0].data = confirmedData;
+    this.perDayChart.data.datasets[1].data = recoveredData;
+    this.perDayChart.data.datasets[2].data = deathData;
+    this.perDayChart.update();
+  }
+
 
   /**
    * Open bottom sheet on click of twitter icon
@@ -626,4 +666,17 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.bottomSheet.open(TweetSheetComponent, config);
   }
 
+  /**
+   * Slide next when clicked on next icon
+   */
+  slideNext() {
+    this.swiper.slideNext();
+  }
+
+  /**
+   * Slide previous when clicked on prev icon
+   */
+  slidePrev() {
+    this.swiper.slidePrev();
+  }
 }
